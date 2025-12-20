@@ -6,7 +6,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN || "https://wondrous-cassata-2d6676.netlify.app",
     credentials: true,
   })
 );
