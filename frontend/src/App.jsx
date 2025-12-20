@@ -1,13 +1,13 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Layout from './components/Layout';
-import Upload from './pages/Upload';
-import WatchHistory from './pages/WatchHistory';
-import ProtectedRoute from './Auth/ProtectedRoute';
-import Register from './pages/Register';
-import VideoDetail from './pages/VideoDetail';
-// ... import other pages
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Layout from "./components/Layout";
+import Upload from "./pages/Upload";
+import WatchHistory from "./pages/WatchHistory";
+import ProtectedRoute from "./Auth/ProtectedRoute";
+import Register from "./pages/Register";
+import VideoDetail from "./pages/VideoDetail";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -19,10 +19,10 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="video/:videoId" element={<VideoDetail />} />
           <Route element={<ProtectedRoute />}>
-            <Route path ="upload" element={<Upload />} />
+            <Route path="upload" element={<Upload />} />
             <Route path="history" element={<WatchHistory />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
-          
         </Route>
       </Routes>
     </BrowserRouter>

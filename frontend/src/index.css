@@ -1,1 +1,167 @@
 @import "tailwindcss";
+
+
+.light body {
+  background-color: #f8fafc !important; /* light gray */
+  color: #0f172a !important; /* dark text */
+}
+
+.light .bg-gray-900 {
+  background-color: #ffffff !important;
+}
+.light .bg-gray-800 {
+  background-color: #f1f5f9 !important;
+}
+.light .bg-gray-700 {
+  background-color: #e2e8f0 !important;
+}
+
+.light .text-white {
+  color: #0b1220 !important;
+}
+.light .text-gray-400 {
+  color: #475569 !important;
+}
+.light .text-gray-300 {
+  color: #64748b !important;
+}
+.light .text-gray-500 {
+  color: #334155 !important;
+}
+
+.light .border-gray-700 {
+  border-color: #e2e8f0 !important;
+}
+.light .border-gray-800 {
+  border-color: #e2e8f0 !important;
+}
+
+.light .bg-black {
+  background-color: #ffffff !important;
+}
+
+/* Buttons: keep accent colors but ensure contrast on light */
+.light .bg-blue-600 {
+  background-color: #2563eb !important;
+  color: white !important;
+}
+.light .bg-red-600 {
+  background-color: #dc2626 !important;
+  color: white !important;
+}
+
+/* Small helpers */
+.light input,
+.light textarea {
+  background-color: #fff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Ensure images with rounded dark placeholders don't look odd */
+.light img {
+  opacity: 1 !important;
+}
+
+/* Dark theme — black primary and eye-safe colors */
+.dark body {
+  background-color: #000000 !important; /* pure black background */
+  color: #d1d5db !important; /* soft off-white text */
+}
+
+/* Background layers (use subtle differences above pure black) */
+.dark .bg-gray-900 {
+  background-color: #000000 !important;
+}
+.dark .bg-gray-800 {
+  background-color: #070707 !important;
+}
+.dark .bg-gray-700 {
+  background-color: #0f0f0f !important;
+}
+.dark .bg-black {
+  background-color: #000000 !important;
+}
+
+/* Text tones — lower contrast for comfort */
+.dark .text-white {
+  color: #e5e7eb !important;
+} /* gentle white */
+.dark .text-gray-300 {
+  color: #cbd5e1 !important;
+}
+.dark .text-gray-400 {
+  color: #9ca3af !important;
+}
+.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* Inputs, cards and borders (muted) */
+.dark input,
+.dark textarea,
+.dark .bg-gray-700 {
+  background-color: #0b0b0b !important;
+  color: #d1d5db !important;
+  border-color: #1f2937 !important;
+}
+.dark .border-gray-700 {
+  border-color: #111827 !important;
+}
+.dark .border-gray-800 {
+  border-color: #0b0b0b !important;
+}
+
+/* Button accents — keep readable but not glaring */
+.dark .bg-blue-600 {
+  background-color: #2563eb !important;
+  color: #fff !important;
+}
+.dark .bg-blue-700 {
+  background-color: #1d4ed8 !important;
+}
+.dark .bg-red-600 {
+  background-color: #dc2626 !important;
+  color: #fff !important;
+}
+.dark .hover\:bg-blue-700:hover {
+  background-color: #1d4ed8 !important;
+}
+
+/* Reduce heavy glows/shadows to be gentler on eyes */
+.dark .shadow,
+.dark .shadow-md,
+.dark .shadow-lg {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Links and interactive text */
+.dark a {
+  color: #60a5fa !important;
+  text-decoration: underline;
+}
+.dark a:hover {
+  color: #93c5fd !important;
+}
+
+/* Player & overlays */
+.dark .react-player {
+  background-color: #000 !important;
+}
+.dark .modal,
+.dark .overlay {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Accessibility: ensure focus outlines are visible but subtle */
+.dark :focus {
+  outline: 2px solid rgba(96, 165, 250, 0.35) !important;
+  outline-offset: 2px;
+}
+
+/* Small helpers to avoid pure-white images causing eye strain */
+.dark img {
+  filter: none !important;
+}
+
+/* End of dark-theme overrides */

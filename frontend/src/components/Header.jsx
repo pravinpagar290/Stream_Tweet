@@ -1,43 +1,104 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../Auth/AuthContext";
+import { useTheme } from "../Theme/ThemeContext.jsx";
 
 function Header() {
-  // We'll add auth state (isLoggedIn) here later
-  const isLoggedIn = true; // Hardcoded for now
+  const { isLoggedIn, user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+  const [loggingOut, setLoggingOut] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      setLoggingOut(true);
+      await logout();
+      navigate("/login");
+    } finally {
+      setLoggingOut(false);
+    }
+  };
 
   return (
     <header className="bg-gray-800 text-white shadow-md sticky top-0 z-50">
-      <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-        
+      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-blue-500">
-          StreamTweet
-        </Link>
+        <div className="flex items-center gap-6">
+          <Link to="/" className="text-2xl font-bold text-blue-500">
+            StreamTweet
+          </Link>
 
-        {/* Search Bar (Placeholder) */}
-        <div className="hidden sm:block w-full max-w-xs">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          {/* Primary navigation */}
+          <div className="hidden md:flex items-center gap-3">
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                `px-3 py-2 rounded-md text-sm font-medium ${
+                  isActive
+                    ? "bg-gray-700 text-white"
+                    : "text-gray-300 hover:bg-gray-700"
+                }`
+              }
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/upload"
+              className={({ isActive }) =>
+                `px-3 py-2 rounded-md text-sm font-medium ${
+                  isActive
+                    ? "bg-gray-700 text-white"
+                    : "text-gray-300 hover:bg-gray-700"
+                }`
+              }
+            >
+              Upload
+            </NavLink>
+
+            <NavLink
+              to="/history"
+              className={({ isActive }) =>
+                `px-3 py-2 rounded-md text-sm font-medium ${
+                  isActive
+                    ? "bg-gray-700 text-white"
+                    : "text-gray-300 hover:bg-gray-700"
+                }`
+              }
+            >
+              History
+            </NavLink>
+          </div>
         </div>
 
-        {/* Auth & Upload Links */}
+        {/* Right side: auth / profile & theme toggle */}
         <div className="flex items-center space-x-4">
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="px-2 py-1 rounded-md border border-transparent hover:bg-gray-700/60"
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? "🌙" : "☀️"}
+          </button>
+
           {isLoggedIn ? (
             <>
-              <Link
-                to="/upload"
-                className="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium"
+              <NavLink
+                to="/profile"
+                className="hidden sm:inline px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700"
               >
-                Upload
-              </Link>
-              <Link to="/profile" className="text-sm font-medium hover:text-blue-400">
                 Profile
-              </Link>
-              <button className="text-sm font-medium hover:text-blue-400">
-                Logout
+              </NavLink>
+
+              <button
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="text-sm font-medium hover:text-blue-400 disabled:opacity-50"
+              >
+                {loggingOut ? "Logging out..." : "Logout"}
               </button>
             </>
           ) : (
