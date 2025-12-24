@@ -4,14 +4,20 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://streamtweet.netlify.app",
-];
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map((s) => s.trim())
+  : ["http://localhost:5173", "https://streamtweet.netlify.app"];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // allow requests with no origin (e.g., curl, mobile apps, postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes("*") || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("CORS policy: origin not allowed"));
+    },
     credentials: true,
   })
 );
