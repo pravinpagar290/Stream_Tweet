@@ -1,9 +1,82 @@
 @import "tailwindcss";
 
+/* ============================================
+   GLOBAL ANIMATIONS & KEYFRAMES
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+  }
+}
+
+/* ============================================
+   LIGHT THEME
+   ============================================ */
 
 .light body {
-  background-color: #f8fafc !important; /* light gray */
-  color: #0f172a !important; /* dark text */
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .light .bg-gray-900 {
@@ -40,7 +113,6 @@
   background-color: #ffffff !important;
 }
 
-/* Buttons: keep accent colors but ensure contrast on light */
 .light .bg-blue-600 {
   background-color: #2563eb !important;
   color: white !important;
@@ -50,118 +122,297 @@
   color: white !important;
 }
 
-/* Small helpers */
 .light input,
 .light textarea {
   background-color: #fff !important;
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
+  transition: all 0.2s ease;
 }
 
-/* Ensure images with rounded dark placeholders don't look odd */
+.light input:focus,
+.light textarea:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
 .light img {
   opacity: 1 !important;
 }
 
-/* Dark theme — black primary and eye-safe colors */
+/* ============================================
+   DARK THEME - MATTE BLACK PREMIUM
+   ============================================ */
+
 .dark body {
-  background-color: #000000 !important; /* pure black background */
-  color: #d1d5db !important; /* soft off-white text */
-}
-
-/* Background layers (use subtle differences above pure black) */
-.dark .bg-gray-900 {
-  background-color: #000000 !important;
-}
-.dark .bg-gray-800 {
-  background-color: #070707 !important;
-}
-.dark .bg-gray-700 {
-  background-color: #0f0f0f !important;
-}
-.dark .bg-black {
-  background-color: #000000 !important;
-}
-
-/* Text tones — lower contrast for comfort */
-.dark .text-white {
+  background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%) !important;
   color: #e5e7eb !important;
-} /* gentle white */
-.dark .text-gray-300 {
-  color: #cbd5e1 !important;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+  animation: fadeIn 0.5s ease-out;
 }
+
+/* Matte Black Background Layers */
+.dark .bg-gray-900 {
+  background-color: #0a0a0a !important;
+  backdrop-filter: blur(10px);
+}
+
+.dark .bg-gray-800 {
+  background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%) !important;
+  backdrop-filter: blur(10px);
+}
+
+.dark .bg-gray-700 {
+  background-color: #1a1a1a !important;
+  backdrop-filter: blur(8px);
+}
+
+.dark .bg-black {
+  background-color: #0a0a0a !important;
+}
+
+/* Premium Text Colors */
+.dark .text-white {
+  color: #f5f5f5 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.dark .text-gray-300 {
+  color: #d1d5db !important;
+}
+
 .dark .text-gray-400 {
   color: #9ca3af !important;
 }
+
 .dark .text-gray-500 {
-  color: #94a3b8 !important;
+  color: #6b7280 !important;
 }
 
-/* Inputs, cards and borders (muted) */
+/* Premium Inputs with Glassmorphism */
 .dark input,
 .dark textarea,
 .dark .bg-gray-700 {
-  background-color: #0b0b0b !important;
-  color: #d1d5db !important;
-  border-color: #1f2937 !important;
+  background: rgba(26, 26, 26, 0.8) !important;
+  color: #e5e7eb !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.dark input:hover,
+.dark textarea:hover {
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  background: rgba(26, 26, 26, 0.9) !important;
+}
+
+.dark input:focus,
+.dark textarea:focus {
+  border-color: rgba(59, 130, 246, 0.6) !important;
+  background: rgba(26, 26, 26, 1) !important;
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.4) !important;
+  outline: none !important;
+}
+
+/* Premium Borders */
 .dark .border-gray-700 {
-  border-color: #111827 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
+
 .dark .border-gray-800 {
-  border-color: #0b0b0b !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Button accents — keep readable but not glaring */
+/* Premium Buttons with Glow Effect */
 .dark .bg-blue-600 {
-  background-color: #2563eb !important;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
   color: #fff !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.dark .bg-blue-600:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+}
+
 .dark .bg-blue-700 {
-  background-color: #1d4ed8 !important;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
 }
+
 .dark .bg-red-600 {
-  background-color: #dc2626 !important;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
   color: #fff !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.dark .bg-red-600:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+  transform: translateY(-2px);
+}
+
 .dark .hover\:bg-blue-700:hover {
-  background-color: #1d4ed8 !important;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
 }
 
-/* Reduce heavy glows/shadows to be gentler on eyes */
+/* Premium Shadows with Depth */
 .dark .shadow,
-.dark .shadow-md,
-.dark .shadow-lg {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6) !important;
+.dark .shadow-md {
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Links and interactive text */
+.dark .shadow-lg {
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Premium Links */
 .dark a {
   color: #60a5fa !important;
-  text-decoration: underline;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
 }
+
 .dark a:hover {
   color: #93c5fd !important;
+  text-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
 }
 
-/* Player & overlays */
-.dark .react-player {
-  background-color: #000 !important;
+.dark a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #60a5fa, #93c5fd);
+  transition: width 0.3s ease;
 }
+
+.dark a:hover::after {
+  width: 100%;
+}
+
+/* Player & Overlays */
+.dark .react-player {
+  background-color: #0a0a0a !important;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 .dark .modal,
 .dark .overlay {
-  background-color: rgba(0, 0, 0, 0.85) !important;
+  background: rgba(10, 10, 10, 0.95) !important;
+  backdrop-filter: blur(20px);
 }
 
-/* Accessibility: ensure focus outlines are visible but subtle */
+/* Premium Focus States */
 .dark :focus {
-  outline: 2px solid rgba(96, 165, 250, 0.35) !important;
+  outline: 2px solid rgba(59, 130, 246, 0.5) !important;
   outline-offset: 2px;
 }
 
-/* Small helpers to avoid pure-white images causing eye strain */
 .dark img {
   filter: none !important;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
 }
 
-/* End of dark-theme overrides */
+/* ============================================
+   CUSTOM UTILITY CLASSES
+   ============================================ */
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInFromLeft 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.5s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Glassmorphism Effect */
+.glass-effect {
+  background: rgba(26, 26, 26, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth Transitions */
+* {
+  transition-property:
+    background-color, border-color, color, fill, stroke, opacity, box-shadow,
+    transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Hover Lift Effect */
+.hover-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar Styling for Dark Mode */
+.dark ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  border-radius: 5px;
+  border: 2px solid #0a0a0a;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+}
+
+/* Selection Styling */
+.dark ::selection {
+  background-color: rgba(59, 130, 246, 0.3);
+  color: #fff;
+}
+
+/* End of enhanced theme */

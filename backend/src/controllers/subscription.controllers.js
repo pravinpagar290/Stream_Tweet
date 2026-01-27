@@ -5,10 +5,7 @@ import { User } from "../models/user.model.js";
 import { Subscription } from "../models/subscription.model.js";
 import mongoose from "mongoose";
 
-/**
- * Subscribe to a channel (by username)
- * POST /api/v1/user/subscribe/:username
- */
+
 const subscribeToChannel = asyncHandler(async (req, res) => {
   const { username } = req.params;
   const currentUserId = req.user?._id;

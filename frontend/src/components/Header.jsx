@@ -20,22 +20,25 @@ function Header() {
   };
 
   return (
-    <header className="bg-gray-800 text-white shadow-md sticky top-0 z-50">
+    <header className="glass-effect text-white shadow-lg sticky top-0 z-50 border-b border-gray-800 animate-slide-in-left">
       <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link to="/" className="text-2xl font-bold text-blue-500">
+          <Link
+            to="/"
+            className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-blue-400 bg-clip-text text-transparent hover:from-blue-400 hover:to-blue-300 transition-all duration-300"
+          >
             StreamTweet
           </Link>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2">
             <NavLink
               to="/"
               end
               className={({ isActive }) =>
-                `px-3 py-2 rounded-md text-sm font-medium ${
+                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gray-700 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
             >
@@ -45,10 +48,10 @@ function Header() {
             <NavLink
               to="/upload"
               className={({ isActive }) =>
-                `px-3 py-2 rounded-md text-sm font-medium ${
+                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gray-700 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
             >
@@ -58,10 +61,10 @@ function Header() {
             <NavLink
               to="/history"
               className={({ isActive }) =>
-                `px-3 py-2 rounded-md text-sm font-medium ${
+                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gray-700 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
             >
@@ -71,10 +74,10 @@ function Header() {
             <NavLink
               to="/tweets"
               className={({ isActive }) =>
-                `px-3 py-2 rounded-md text-sm font-medium ${
+                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gray-700 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
             >
@@ -83,11 +86,11 @@ function Header() {
           </div>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="px-2 py-1 rounded-md border border-transparent hover:bg-gray-700/60"
+            className="px-3 py-2 rounded-lg border border-gray-700 hover:border-blue-500 hover:bg-gray-700/50 transition-all duration-300 text-xl hover:scale-110"
             title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
             {theme === "dark" ? "🌙" : "☀️"}
@@ -97,7 +100,7 @@ function Header() {
             <>
               <NavLink
                 to="/profile"
-                className="hidden sm:inline px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700"
+                className="hidden sm:inline px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-gray-700/50 hover:text-white transition-all duration-300"
               >
                 Profile
               </NavLink>
@@ -105,7 +108,7 @@ function Header() {
               <button
                 onClick={handleLogout}
                 disabled={loggingOut}
-                className="text-sm font-medium hover:text-blue-400 disabled:opacity-50"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-lg hover:shadow-red-500/30"
               >
                 {loggingOut ? "Logging out..." : "Logout"}
               </button>
@@ -114,13 +117,13 @@ function Header() {
             <>
               <Link
                 to="/login"
-                className="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium"
+                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="hidden sm:block text-sm font-medium hover:text-blue-400"
+                className="hidden sm:block text-sm font-medium text-gray-300 hover:text-blue-400 transition-all duration-300"
               >
                 Register
               </Link>

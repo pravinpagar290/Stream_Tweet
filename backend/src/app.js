@@ -11,7 +11,6 @@ const allowedOrigins = process.env.CORS_ORIGIN
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (e.g., curl, mobile apps, postman)
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes("*") || allowedOrigins.includes(origin)) {
         return callback(null, true);
