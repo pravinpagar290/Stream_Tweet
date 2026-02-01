@@ -25,7 +25,7 @@ function Header() {
         <div className="flex items-center gap-6">
           <Link
             to="/"
-            className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-blue-400 bg-clip-text text-transparent hover:from-blue-400 hover:to-blue-300 transition-all duration-300"
+            className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent hover:from-cyan-300 hover:to-blue-500 transition-all duration-300"
           >
             StreamTweet
           </Link>
@@ -37,7 +37,7 @@ function Header() {
               className={({ isActive }) =>
                 `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
                     : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
@@ -50,7 +50,7 @@ function Header() {
               className={({ isActive }) =>
                 `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
                     : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
@@ -63,7 +63,7 @@ function Header() {
               className={({ isActive }) =>
                 `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
                     : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
@@ -75,7 +75,7 @@ function Header() {
               className={({ isActive }) =>
                 `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
                     : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
@@ -88,7 +88,7 @@ function Header() {
               className={({ isActive }) =>
                 `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
                     : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
@@ -101,7 +101,7 @@ function Header() {
               className={({ isActive }) =>
                 `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
                     : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`
               }
@@ -115,7 +115,7 @@ function Header() {
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="px-3 py-2 rounded-lg border border-gray-700 hover:border-blue-500 hover:bg-gray-700/50 transition-all duration-300 text-xl hover:scale-110"
+            className="px-3 py-2 rounded-lg border border-gray-700 hover:border-cyan-500 hover:bg-gray-700/50 transition-all duration-300 text-xl hover:scale-110"
             title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
             {theme === "dark" ? "🌙" : "☀️"}
@@ -142,13 +142,13 @@ function Header() {
             <>
               <Link
                 to="/login"
-                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105"
+                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30 hover:scale-105"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="hidden sm:block text-sm font-medium text-gray-300 hover:text-blue-400 transition-all duration-300"
+                className="hidden sm:block text-sm font-medium text-gray-300 hover:text-cyan-400 transition-all duration-300"
               >
                 Register
               </Link>

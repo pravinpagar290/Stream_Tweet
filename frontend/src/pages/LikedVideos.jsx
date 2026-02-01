@@ -31,9 +31,9 @@ function VideoCard({ video }) {
       to={`/video/${video._id}`}
       className="group block rounded-xl overflow-hidden shadow-lg
                  glass-effect ring-1 ring-white/5
-                 hover:ring-2 hover:ring-blue-400/50
+                 hover:ring-2 hover:ring-cyan-400/50
                  transition-all duration-500 hover:-translate-y-2
-                 hover:shadow-2xl hover:shadow-blue-500/20
+                 hover:shadow-2xl hover:shadow-cyan-500/20
                  animate-scale-in"
     >
       <div className="relative w-full pt-[56.25%] bg-gray-900 overflow-hidden">
@@ -49,13 +49,13 @@ function VideoCard({ video }) {
                      group-hover:scale-110
                      ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
         />
-        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      <div className="p-4 text-white bg-linear-to-b from-transparent to-gray-900/50">
+      <div className="p-4 text-white bg-gradient-to-b from-transparent to-gray-900/50">
         <h3
           className="font-semibold text-base line-clamp-2 mb-2
-                     group-hover:text-blue-300 transition-colors duration-300"
+                     group-hover:text-cyan-300 transition-colors duration-300"
           title={title}
         >
           {title}

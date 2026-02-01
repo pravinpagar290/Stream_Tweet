@@ -51,9 +51,7 @@ function Register() {
         err?.response?.data?.error ??
         err?.normalizedMessage;
       if (status === 409) {
-        setError(
-          "An account with that email/username already exists.",
-        );
+        setError("An account with that email/username already exists.");
       } else if (status === 400) {
         setError(serverMsg || "Invalid registration data.");
       } else {
@@ -64,13 +62,14 @@ function Register() {
     } finally {
       setLoading(false);
     }
-   
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex justify-center items-center p-4">
-      <div className="max-w-md w-full bg-gray-800 p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold mb-6 text-center">Create Account</h2>
+    <div className="min-h-screen text-white flex justify-center items-center p-4 animate-fade-in">
+      <div className="max-w-md w-full glass-effect p-8 rounded-2xl shadow-2xl border border-gray-700 animate-scale-in">
+        <h2 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+          Create Account
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -85,7 +84,7 @@ function Register() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:border-cyan-500/50"
               required
               disabled={loading}
             />
@@ -102,7 +101,7 @@ function Register() {
               id="fullName"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:border-cyan-500/50"
               required
               disabled={loading}
             />
@@ -120,7 +119,7 @@ function Register() {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:border-cyan-500/50"
               required
               disabled={loading}
             />
@@ -138,7 +137,7 @@ function Register() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:border-cyan-500/50"
               required
               disabled={loading}
             />
@@ -158,10 +157,11 @@ function Register() {
               onChange={(e) => setAvatar(e.target.files[0])}
               className="mt-1 block w-full text-sm text-gray-400
                 file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
+                file:rounded-lg file:border-0
                 file:text-sm file:font-semibold
-                file:bg-blue-600 file:text-white
-                hover:file:bg-blue-700
+                file:bg-gradient-to-r file:from-cyan-600 file:to-blue-600 file:text-white
+                hover:file:from-cyan-500 hover:file:to-blue-500
+                file:transition-all file:duration-300
                 disabled:opacity-50"
               disabled={loading}
             />
@@ -181,17 +181,18 @@ function Register() {
               onChange={(e) => setCoverImage(e.target.files[0])}
               className="mt-1 block w-full text-sm text-gray-400
                 file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
+                file:rounded-lg file:border-0
                 file:text-sm file:font-semibold
-                file:bg-gray-600 file:text-white
-                hover:file:bg-gray-500
+                file:bg-gray-700 file:text-white
+                hover:file:bg-gray-600
+                file:transition-all file:duration-300
                 disabled:opacity-50"
               disabled={loading}
             />
           </div>
 
           {error && (
-            <div className="text-red-400 text-sm text-center bg-red-900/30 p-3 rounded-md">
+            <div className="text-red-400 text-sm text-center bg-red-900/30 p-3 rounded-lg border border-red-500/30 animate-scale-in">
               {error}
             </div>
           )}
@@ -199,7 +200,12 @@ function Register() {
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-sm font-medium text-white 
+                       bg-gradient-to-r from-cyan-600 to-blue-600 
+                       hover:from-cyan-500 hover:to-blue-500 
+                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 
+                       disabled:opacity-50 disabled:cursor-not-allowed
+                       transition-all duration-300 hover:shadow-cyan-500/50 hover:scale-105"
               disabled={loading}
             >
               {loading ? (
@@ -237,7 +243,7 @@ function Register() {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="font-medium text-blue-500 hover:text-blue-400"
+            className="font-medium text-cyan-500 hover:text-cyan-400 transition-colors duration-300"
           >
             Log in
           </Link>

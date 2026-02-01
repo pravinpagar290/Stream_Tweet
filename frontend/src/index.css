@@ -60,10 +60,10 @@
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
   }
   50% {
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
   }
 }
 
@@ -72,7 +72,7 @@
    ============================================ */
 
 .light body {
-  background-color: #f8fafc !important;
+  background-color: #f0f9ff !important; /* Very light cyan tint */
   color: #0f172a !important;
   transition:
     background-color 0.3s ease,
@@ -81,6 +81,7 @@
 
 .light .bg-gray-900 {
   background-color: #ffffff !important;
+  border: 1px solid #e0f2fe;
 }
 .light .bg-gray-800 {
   background-color: #f1f5f9 !important;
@@ -96,14 +97,14 @@
   color: #475569 !important;
 }
 .light .text-gray-300 {
-  color: #64748b !important;
+  color: #334155 !important;
 }
 .light .text-gray-500 {
-  color: #334155 !important;
+  color: #64748b !important;
 }
 
 .light .border-gray-700 {
-  border-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
 }
 .light .border-gray-800 {
   border-color: #e2e8f0 !important;
@@ -113,27 +114,36 @@
   background-color: #ffffff !important;
 }
 
+/* Brand Gradient for Buttons in Light Mode */
 .light .bg-blue-600 {
-  background-color: #2563eb !important;
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%) !important;
   color: white !important;
+  box-shadow: 0 4px 10px rgba(6, 182, 212, 0.2);
 }
+
+.light .bg-blue-600:hover {
+  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%) !important;
+  box-shadow: 0 6px 15px rgba(6, 182, 212, 0.3);
+}
+
 .light .bg-red-600 {
-  background-color: #dc2626 !important;
+  background-color: #ef4444 !important;
   color: white !important;
 }
 
 .light input,
 .light textarea {
-  background-color: #fff !important;
+  background-color: #ffffff !important;
   color: #0f172a !important;
-  border-color: #cbd5e1 !important;
+  border: 1px solid #cbd5e1 !important;
   transition: all 0.2s ease;
 }
 
 .light input:focus,
 .light textarea:focus {
-  border-color: #3b82f6 !important;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  border-color: #06b6d4 !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1) !important;
+  outline: none !important;
 }
 
 .light img {
@@ -141,152 +151,154 @@
 }
 
 /* ============================================
-   DARK THEME - MATTE BLACK PREMIUM
+   DARK THEME - DEEP SPACE CYAN
    ============================================ */
 
 .dark body {
-  background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%) !important;
-  color: #e5e7eb !important;
+  background: linear-gradient(135deg, #020617 0%, #080c18 100%) !important;
+  color: #e2e8f0 !important;
   transition:
     background 0.3s ease,
     color 0.3s ease;
   animation: fadeIn 0.5s ease-out;
 }
 
-/* Matte Black Background Layers */
+/* Deep Background Layers */
 .dark .bg-gray-900 {
-  background-color: #0a0a0a !important;
+  background-color: #0f172a !important; /* Slate 900 */
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(6, 182, 212, 0.05);
 }
 
 .dark .bg-gray-800 {
-  background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%) !important;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
   backdrop-filter: blur(10px);
 }
 
 .dark .bg-gray-700 {
-  background-color: #1a1a1a !important;
+  background-color: #334155 !important;
   backdrop-filter: blur(8px);
 }
 
 .dark .bg-black {
-  background-color: #0a0a0a !important;
+  background-color: #020617 !important;
 }
 
-/* Premium Text Colors */
+/* Text Colors */
 .dark .text-white {
-  color: #f5f5f5 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: #f1f5f9 !important;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.1);
 }
 
 .dark .text-gray-300 {
-  color: #d1d5db !important;
+  color: #cbd5e1 !important;
 }
 
 .dark .text-gray-400 {
-  color: #9ca3af !important;
+  color: #94a3b8 !important;
 }
 
 .dark .text-gray-500 {
-  color: #6b7280 !important;
+  color: #64748b !important;
 }
 
-/* Premium Inputs with Glassmorphism */
+/* Premium Inputs with Cyan Glow */
 .dark input,
 .dark textarea,
 .dark .bg-gray-700 {
-  background: rgba(26, 26, 26, 0.8) !important;
-  color: #e5e7eb !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(6, 182, 212, 0.1) !important;
   backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dark input:hover,
 .dark textarea:hover {
-  border-color: rgba(59, 130, 246, 0.3) !important;
-  background: rgba(26, 26, 26, 0.9) !important;
+  border-color: rgba(6, 182, 212, 0.3) !important;
+  background: rgba(15, 23, 42, 0.8) !important;
 }
 
 .dark input:focus,
 .dark textarea:focus {
-  border-color: rgba(59, 130, 246, 0.6) !important;
-  background: rgba(26, 26, 26, 1) !important;
+  border-color: #06b6d4 !important;
+  background: rgba(15, 23, 42, 0.95) !important;
   box-shadow:
-    0 0 0 3px rgba(59, 130, 246, 0.1),
+    0 0 0 3px rgba(6, 182, 212, 0.15),
     0 8px 16px rgba(0, 0, 0, 0.4) !important;
   outline: none !important;
 }
 
-/* Premium Borders */
+/* Borders */
 .dark .border-gray-700 {
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(6, 182, 212, 0.1) !important;
 }
 
 .dark .border-gray-800 {
-  border-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(6, 182, 212, 0.05) !important;
 }
 
-/* Premium Buttons with Glow Effect */
+/* Brand Buttons (Cyan to Blue Gradient) */
 .dark .bg-blue-600 {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-  color: #fff !important;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dark .bg-blue-600:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%) !important;
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
   transform: translateY(-2px);
 }
 
 .dark .bg-blue-700 {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%) !important;
 }
 
 .dark .bg-red-600 {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%) !important;
   color: #fff !important;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dark .bg-red-600:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
   transform: translateY(-2px);
 }
 
 .dark .hover\:bg-blue-700:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%) !important;
 }
 
-/* Premium Shadows with Depth */
+/* Shadows */
 .dark .shadow,
 .dark .shadow-md {
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.5),
-    0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    0 2px 8px rgba(6, 182, 212, 0.05) !important;
 }
 
 .dark .shadow-lg {
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.6),
-    0 4px 12px rgba(0, 0, 0, 0.4) !important;
+    0 4px 12px rgba(6, 182, 212, 0.1) !important;
 }
 
-/* Premium Links */
+/* Links (Cyan) */
 .dark a {
-  color: #60a5fa !important;
+  color: #22d3ee !important; /* Cyan 400 */
   text-decoration: none;
   transition: all 0.2s ease;
   position: relative;
 }
 
 .dark a:hover {
-  color: #93c5fd !important;
-  text-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
+  color: #67e8f9 !important; /* Cyan 300 */
+  text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
 }
 
 .dark a::after {
@@ -296,7 +308,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #60a5fa, #93c5fd);
+  background: linear-gradient(90deg, #22d3ee, #3b82f6);
   transition: width 0.3s ease;
 }
 
@@ -306,20 +318,22 @@
 
 /* Player & Overlays */
 .dark .react-player {
-  background-color: #0a0a0a !important;
+  background-color: #020617 !important;
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(6, 182, 212, 0.1);
 }
 
 .dark .modal,
 .dark .overlay {
-  background: rgba(10, 10, 10, 0.95) !important;
+  background: rgba(2, 6, 23, 0.95) !important;
   backdrop-filter: blur(20px);
 }
 
-/* Premium Focus States */
+/* Focus States */
 .dark :focus {
-  outline: 2px solid rgba(59, 130, 246, 0.5) !important;
+  outline: 2px solid rgba(6, 182, 212, 0.5) !important;
   outline-offset: 2px;
 }
 
@@ -354,7 +368,7 @@
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
+    rgba(6, 182, 212, 0.1) 50%,
     rgba(255, 255, 255, 0) 100%
   );
   background-size: 1000px 100%;
@@ -363,9 +377,9 @@
 
 /* Glassmorphism Effect */
 .glass-effect {
-  background: rgba(26, 26, 26, 0.7);
+  background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.1);
 }
 
 /* Smooth Transitions */
@@ -386,7 +400,7 @@
 
 .hover-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 24px rgba(6, 182, 212, 0.15);
 }
 
 /* Scrollbar Styling for Dark Mode */
@@ -396,22 +410,22 @@
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: #020617;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
   border-radius: 5px;
-  border: 2px solid #0a0a0a;
+  border: 2px solid #020617;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+  background: linear-gradient(135deg, #0891b2, #2563eb);
 }
 
 /* Selection Styling */
 .dark ::selection {
-  background-color: rgba(59, 130, 246, 0.3);
+  background-color: rgba(6, 182, 212, 0.3);
   color: #fff;
 }
 

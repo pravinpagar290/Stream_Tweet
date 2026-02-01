@@ -42,7 +42,7 @@ const RecSkeleton = () => (
 
 export default function VideoDetail() {
   const { videoId } = useParams();
-  const { user, isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const playerRef = useRef(null);
   const observerRef = useRef(null);
@@ -109,7 +109,9 @@ export default function VideoDetail() {
         const { data } = await api.get(`/user/channel/${video.owner.username}`);
         setIsSubscribed(!!data?.data?.isSubscribed);
         setSubscriberCount(data?.data?.subscriberCount || 0);
-      } catch {}
+      } catch {
+        // Ignore errors fetching channel info
+      }
     })();
   }, [video]);
 
@@ -219,7 +221,7 @@ export default function VideoDetail() {
       <div className="min-h-screen flex items-center justify-center bg-gray-900 text-red-400">
         <div className="text-center">
           <p className="text-xl mb-4">{error}</p>
-          <Link to="/" className="text-blue-400 hover:underline">
+          <Link to="/" className="text-cyan-400 hover:underline">
             Go home
           </Link>
         </div>
@@ -234,11 +236,11 @@ export default function VideoDetail() {
     );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen text-white">
       <div className="max-w-7xl mx-auto p-4 md:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden shadow-2xl animate-fadeIn">
+            <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden shadow-2xl animate-fadeIn border border-gray-800">
               <ReactPlayer
                 ref={playerRef}
                 url={video.videoFile}
@@ -266,7 +268,9 @@ export default function VideoDetail() {
             </div>
 
             <div className="space-y-4 animate-slideUp">
-              <h1 className="text-2xl md:text-3xl font-bold">{video.title}</h1>
+              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                {video.title}
+              </h1>
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-300">
                 <span>{video.views || 0} views</span>
                 <span>•</span>
@@ -275,10 +279,10 @@ export default function VideoDetail() {
                   <button
                     onClick={toggleLike}
                     disabled={likeLoading}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition ${
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all border border-transparent ${
                       liked
-                        ? "bg-red-600 text-white"
-                        : "bg-gray-800 hover:bg-gray-700"
+                        ? "bg-red-600 text-white shadow-lg shadow-red-600/30"
+                        : "glass-effect hover:border-cyan-500/50 hover:text-cyan-400"
                     }`}
                   >
                     {likeLoading ? "…" : "👍"} Like
@@ -287,28 +291,31 @@ export default function VideoDetail() {
                 </div>
                 <button
                   onClick={copyLink}
-                  className="relative px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700"
+                  className="relative px-4 py-2 rounded-full glass-effect hover:border-cyan-500/50 hover:text-cyan-400 transition-all border border-transparent"
                 >
                   Share
                   <CopiedBadge show={copied} />
                 </button>
               </div>
 
-              <div className="flex items-center justify-between bg-gray-800/50 backdrop-blur rounded-xl p-4">
+              <div className="flex items-center justify-between glass-effect rounded-xl p-4 border border-gray-700/50 shadow-lg">
                 <Link
                   to={`/c/${video.owner.username}`}
                   className="flex items-center gap-4 group"
                 >
-                  <img
-                    src={
-                      video.owner.avatar ||
-                      'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="100%" height="100%" fill="%231f2937"/><text x="50%" y="50%" fill="%239ca3af" dominant-baseline="middle" text-anchor="middle">U</text></svg>'
-                    }
-                    alt=""
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <img
+                      src={
+                        video.owner.avatar ||
+                        placeholderDataUrl(50, 50, video.owner.username[0])
+                      }
+                      alt=""
+                      className="w-12 h-12 rounded-full object-cover relative z-10 border-2 border-gray-800"
+                    />
+                  </div>
                   <div>
-                    <p className="font-semibold group-hover:text-blue-400">
+                    <p className="font-bold text-lg group-hover:text-cyan-400 transition-colors">
                       {video.owner.username}
                     </p>
                     <p className="text-xs text-gray-400">
@@ -319,21 +326,21 @@ export default function VideoDetail() {
                 <button
                   onClick={toggleSubscribe}
                   disabled={subLoading}
-                  className={`px-4 py-2 rounded-full font-semibold transition ${
+                  className={`px-6 py-2 rounded-full font-semibold transition-all shadow-lg ${
                     isSubscribed
-                      ? "bg-gray-700 text-white"
-                      : "bg-red-600 hover:bg-red-700"
+                      ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      : "bg-red-600 text-white hover:bg-red-700 hover:shadow-red-600/30 hover:scale-105"
                   }`}
                 >
                   {subLoading ? "…" : isSubscribed ? "Subscribed" : "Subscribe"}
                 </button>
               </div>
 
-              <details className="bg-gray-800/50 backdrop-blur rounded-xl p-4">
-                <summary className="cursor-pointer font-semibold">
+              <details className="glass-effect rounded-xl p-4 border border-gray-700/50">
+                <summary className="cursor-pointer font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
                   Description
                 </summary>
-                <p className="text-gray-300 mt-2 whitespace-pre-wrap">
+                <p className="text-gray-300 mt-2 whitespace-pre-wrap leading-relaxed">
                   {video.description || "No description provided."}
                 </p>
               </details>
@@ -341,7 +348,7 @@ export default function VideoDetail() {
           </div>
 
           <aside className="space-y-3 animate-slideUp" ref={observerRef}>
-            <h2 className="text-lg font-semibold">Up next</h2>
+            <h2 className="text-lg font-semibold mb-4">Up next</h2>
             {recLoading ? (
               Array.from({ length: 6 }).map((_, i) => <RecSkeleton key={i} />)
             ) : recommendedVideos.length ? (
@@ -349,7 +356,9 @@ export default function VideoDetail() {
                 <RecommendedCard key={v._id} video={v} delay={idx * 80} />
               ))
             ) : (
-              <p className="text-gray-400 text-sm">No recommendations</p>
+              <p className="text-gray-400 text-sm glass-effect p-4 rounded-lg text-center">
+                No recommendations
+              </p>
             )}
           </aside>
         </div>
@@ -396,16 +405,16 @@ function RecommendedCard({ video, delay }) {
   return (
     <Link
       to={`/video/${video._id}`}
-      className="flex gap-3 p-2 rounded-lg hover:bg-gray-800/60 transition backdrop-blur opacity-0 animate-slideUp"
+      className="flex gap-3 p-2 rounded-lg glass-effect hover:bg-white/5 border border-transparent hover:border-cyan-500/30 transition-all duration-300 opacity-0 animate-slideUp group"
       style={{ animationDelay: `${delay}ms`, animationFillMode: "forwards" }}
     >
-      <div className="relative w-40 h-24 rounded-lg overflow-hidden shrink-0 bg-gray-900">
+      <div className="relative w-40 h-24 rounded-lg overflow-hidden shrink-0 bg-gray-900 shadow-md">
         <video
           src={video.videoFile}
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover hidden group-hover:block"
           onMouseOver={(e) => e.target.play()}
           onMouseOut={(e) => e.target.pause()}
         />
@@ -416,8 +425,10 @@ function RecommendedCard({ video, delay }) {
         />
       </div>
 
-      <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-semibold line-clamp-2">{title}</h3>
+      <div className="flex-1 min-w-0 flex flex-col justify-center">
+        <h3 className="text-sm font-semibold line-clamp-2 group-hover:text-cyan-400 transition-colors">
+          {title}
+        </h3>
         <p className="text-xs text-gray-400 mt-1">{uploader}</p>
         <p className="text-xs text-gray-500">{views} views</p>
       </div>

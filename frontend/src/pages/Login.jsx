@@ -1,44 +1,42 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
 import api from "../api/axios";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [loading, setLoading] = useState(false);
-
+  const [serverError, setServerError] = useState(null);
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const { setUser, setIsLoggedIn } = useAuth();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setLoading(true);
-    setError(null);
-
+    setServerError(null);
     try {
-      const response = await api.post("/user/login", { email, password });
+      const response = await api.post("/user/login", {
+        email: data.email,
+        password: data.password,
+      });
 
-      if (response.data && response.data.data && response.data.data.user) {
-        const returnedUser = response.data.data.user;
-        const accessToken = response.data.data.accessToken;
-        if (accessToken) {
-          localStorage.setItem("token", accessToken);
-        }
-        setUser(returnedUser);
-        setIsLoggedIn(true);
-        navigate("/");
-      } else {
-        throw new Error("Invalid login response from server.");
+      const { accessToken, user } = response.data.data;
+      if (!accessToken || !user) {
+        throw new Error("Invalid response from server");
       }
-    } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
-        console.error("Login error:", err.response.data.message);
-        setError(err.response.data.message);
+
+      login(user, accessToken); // Update auth context
+      navigate("/");
+    } catch (error) {
+      console.error("Login failed:", error);
+      if (error.response?.data?.message) {
+        setServerError(error.response.data.message);
       } else {
-        console.error("Unexpected error:", err.message);
-        setError("An unexpected error occurred. Please try again.");
+        setServerError("Login failed. Please check your credentials.");
       }
     } finally {
       setLoading(false);
@@ -46,77 +44,103 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex justify-center items-center p-4 animate-fade-in">
-      <div className="max-w-md w-full glass-effect p-8 rounded-2xl shadow-2xl border border-gray-700 animate-scale-in">
-        <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-blue-500 to-blue-400 bg-clip-text text-transparent">
-          Login
+    <div className="flex flex-col justify-center min-h-screen py-12 sm:px-6 lg:px-8 text-white animate-fade-in">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+          Welcome Back
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         transition-all duration-300 hover:border-blue-500/50"
-              required
-              disabled={loading}
-              placeholder="Enter your email"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         transition-all duration-300 hover:border-blue-500/50"
-              required
-              disabled={loading}
-              placeholder="Enter your password"
-            />
-          </div>
-
-          {error && (
-            <div className="text-red-400 text-sm text-center bg-red-900/30 p-3 rounded-lg border border-red-500/30 animate-scale-in">
-              {error}
+        <div className="bg-gray-800/50 backdrop-blur py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-700">
+          {serverError && (
+            <div className="mb-4 p-3 rounded bg-red-500/10 border border-red-500/50 text-red-400 text-sm text-center">
+              {serverError}
             </div>
           )}
 
-          <div>
-            <button
-              type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-sm font-medium text-white 
-                         bg-gradient-to-r from-blue-600 to-blue-500 
-                         hover:from-blue-500 hover:to-blue-400 
-                         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300"
+              >
+                Email address
+              </label>
+              <div className="mt-1">
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white 
+                         focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent
+                         transition-all duration-300 hover:border-cyan-500/50"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                />
+                {errors.email && (
+                  <p className="mt-2 text-sm text-red-400">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300"
+              >
+                Password
+              </label>
+              <div className="mt-1">
+                <input
+                  id="password"
+                  type="password"
+                  autoComplete="current-password"
+                  className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white 
+                         focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent
+                         transition-all duration-300 hover:border-cyan-500/50"
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                />
+                {errors.password && (
+                  <p className="mt-2 text-sm text-red-400">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="text-sm">
+                <Link
+                  to="/forgot-password"
+                  className="font-medium text-cyan-500 hover:text-cyan-400 transition-colors duration-300"
+                >
+                  Forgot your password?
+                </Link>
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-sm font-medium text-white 
+                         bg-gradient-to-r from-cyan-600 to-blue-600 
+                         hover:from-cyan-500 hover:to-blue-500 
+                         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 
                          disabled:opacity-50 disabled:cursor-not-allowed
-                         transition-all duration-300 hover:shadow-blue-500/50 hover:scale-105"
-              disabled={loading}
-            >
-              {loading ? (
-                <div className="flex items-center">
+                         transition-all duration-300 hover:shadow-cyan-500/50 hover:scale-105"
+              >
+                {loading ? (
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                   >
@@ -127,31 +151,41 @@ function Login() {
                       r="10"
                       stroke="currentColor"
                       strokeWidth="4"
-                    ></circle>
+                    />
                     <path
                       className="opacity-75"
                       fill="currentColor"
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
+                    />
                   </svg>
-                  Logging in...
-                </div>
-              ) : (
-                "Login"
-              )}
-            </button>
-          </div>
-        </form>
+                ) : null}
+                {loading ? "Signing in..." : "Sign in"}
+              </button>
+            </div>
+          </form>
 
-        <p className="mt-6 text-center text-sm text-gray-400">
-          Don't have an account?{" "}
-          <Link
-            to="/register"
-            className="font-medium text-blue-500 hover:text-blue-400 transition-colors duration-300"
-          >
-            Sign up
-          </Link>
-        </p>
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-600" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-gray-800 text-gray-400">
+                  New to StreamTweet?
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-center text-sm">
+              <Link
+                to="/register"
+                className="font-medium text-cyan-500 hover:text-cyan-400 transition-colors duration-300"
+              >
+                Sign up for an account
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
