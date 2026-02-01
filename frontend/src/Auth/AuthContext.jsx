@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  
   useEffect(() => {
     try {
       const token = localStorage.getItem("token");
@@ -47,9 +46,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Expose login helper
+  const login = (userData, accessToken) => {
+    localStorage.setItem("token", accessToken);
+    setUser(userData);
+    setIsLoggedIn(true);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, setUser, isLoggedIn, setIsLoggedIn, logout }}
+      value={{ user, setUser, isLoggedIn, setIsLoggedIn, login, logout }}
     >
       {children}
     </AuthContext.Provider>
