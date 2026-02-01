@@ -61,7 +61,28 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 });
 
 const getLikedVideos = asyncHandler(async (req, res) => {
-  //TODO: get all liked videos
+  const userId = req.user?._id;
+
+  console.log("getLikedVideos - userId:", userId);
+
+  if (!userId) {
+    throw new ApiError(400, "failed to fetch userId");
+  }
+
+  const objectId = new mongoose.Types.ObjectId(userId);
+  const conditions = {
+    likedBy: { $in: [objectId, userId] },
+  };
+
+  const videos = await Video.find(conditions)
+    .populate("owner", "username avatar")
+    .sort({ createdAt: -1 });
+
+  console.log("getLikedVideos - found count:", videos.length);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, videos, "liked video fetched successfully"));
 });
 
 export { toggleCommentLike, toggleTweetLike, toggleVideoLike, getLikedVideos };

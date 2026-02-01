@@ -131,12 +131,23 @@ export default function VideoDetail() {
   }, []);
 
   const toggleLike = async () => {
-    if (!isLoggedIn) return navigate("/login");
+    if (!isLoggedIn || !localStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
     setLikeLoading(true);
     try {
       const { data } = await api.post(`/video/${videoId}/like`);
       setVideo(data.data);
       setLiked(data.data.liked);
+    } catch (err) {
+      console.error("Like toggle failed", err);
+      if (err.response?.status !== 401) {
+        alert(err.response?.data?.message || "Failed to like video");
+      } else {
+        // If 401, redirect to login
+        navigate("/login");
+      }
     } finally {
       setLikeLoading(false);
     }
@@ -178,7 +189,7 @@ export default function VideoDetail() {
     const io = new IntersectionObserver(
       (entries) =>
         entries.forEach((en) => en.isIntersecting && en.target.play()),
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
     const els = observerRef.current.querySelectorAll("video");
     els.forEach((v) => io.observe(v));
@@ -379,7 +390,7 @@ function RecommendedCard({ video, delay }) {
   const thumb = video.thumbnail || placeholderDataUrl(168, 94, "No Image");
   const uploader = video.owner?.username || "Unknown";
   const views = Intl.NumberFormat("en", { notation: "compact" }).format(
-    video.views || 0
+    video.views || 0,
   );
 
   return (

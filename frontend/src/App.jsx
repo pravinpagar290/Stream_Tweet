@@ -10,6 +10,7 @@ import VideoDetail from "./pages/VideoDetail";
 import Profile from "./pages/Profile";
 import Tweet from "./pages/Tweet";
 import Subscriptions from './pages/Subscriptions'
+import LikedVideos from './pages/LikedVideos'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path='subscriptions' element={<Subscriptions/>}/>
             <Route path="profile" element={<Profile />} />
             <Route path="tweets" element={<Tweet />} />
+            <Route path="likedvideos" element={<LikedVideos />} />
           </Route>
         </Route>
       </Routes>

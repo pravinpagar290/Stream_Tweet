@@ -35,9 +35,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/video", videoRouter);
 app.use("/api/v1/tweet", tweetRouter);
 
-// Global error handler - returns structured ApiResponse for errors
 app.use((err, req, res, next) => {
-  // Log full error (useful during development)
   console.error("[SERVER ERROR]", err.stack || err);
 
   const statusCode = err?.statusCode || 500;

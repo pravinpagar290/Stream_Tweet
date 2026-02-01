@@ -19,6 +19,8 @@ import {
   getSubscribedChannels
 } from "../controllers/subscription.controllers.js";
 
+import { getLikedVideos } from "../controllers/like.controllers.js";
+
 const router = Router();
 
 router.route("/register").post(
@@ -66,5 +68,6 @@ router.route("/history").get(verifyToken, getUserHistory);
 router.post("/subscribe/:username", verifyToken, subscribeToChannel);
 router.post("/unsubscribe/:username", verifyToken, unsubscribeFromChannel);
 router.get("/subscriptions", verifyToken, getSubscribedChannels);
+router.get("/likedvideos", verifyToken, getLikedVideos);
 
 export default router;
