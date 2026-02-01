@@ -52,18 +52,19 @@ function Register() {
         err?.normalizedMessage;
       if (status === 409) {
         setError(
-          serverMsg || "An account with that email/username already exists."
+          "An account with that email/username already exists.",
         );
       } else if (status === 400) {
         setError(serverMsg || "Invalid registration data.");
       } else {
         setError(
-          serverMsg || "An unexpected error occurred. Please try again."
+          serverMsg || "An unexpected error occurred. Please try again.",
         );
       }
     } finally {
       setLoading(false);
     }
+   
   };
 
   return (

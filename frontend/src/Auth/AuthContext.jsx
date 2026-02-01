@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }) => {
   // Expose logout helper
   const logout = async () => {
     try {
-      // Call backend to clear cookies/session
       await api.post("/user/logout");
     } catch (err) {
       console.warn("Logout API error", err);

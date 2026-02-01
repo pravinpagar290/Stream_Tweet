@@ -70,6 +70,18 @@ function Header() {
             >
               History
             </NavLink>
+            <NavLink
+              to="/subscriptions"
+              className={({ isActive }) =>
+                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  isActive
+                    ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
+                }`
+              }
+            >
+              Subscriptions
+            </NavLink>
 
             <NavLink
               to="/tweets"

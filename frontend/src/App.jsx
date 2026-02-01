@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import VideoDetail from "./pages/VideoDetail";
 import Profile from "./pages/Profile";
 import Tweet from "./pages/Tweet";
+import Subscriptions from './pages/Subscriptions'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="upload" element={<Upload />} />
             <Route path="history" element={<WatchHistory />} />
+            <Route path='subscriptions' element={<Subscriptions/>}/>
             <Route path="profile" element={<Profile />} />
             <Route path="tweets" element={<Tweet />} />
           </Route>

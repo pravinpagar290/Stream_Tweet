@@ -5,7 +5,6 @@ import { User } from "../models/user.model.js";
 import { Subscription } from "../models/subscription.model.js";
 import mongoose from "mongoose";
 
-
 const subscribeToChannel = asyncHandler(async (req, res) => {
   const { username } = req.params;
   const currentUserId = req.user?._id;
@@ -29,7 +28,6 @@ const subscribeToChannel = asyncHandler(async (req, res) => {
   });
 
   if (existing) {
-    // already subscribed
     const count = await Subscription.countDocuments({
       channel: channelUser._id,
     });
@@ -64,10 +62,6 @@ const subscribeToChannel = asyncHandler(async (req, res) => {
     );
 });
 
-/**
- * Unsubscribe from a channel (by username)
- * POST /api/v1/user/unsubscribe/:username
- */
 const unsubscribeFromChannel = asyncHandler(async (req, res) => {
   const { username } = req.params;
   const currentUserId = req.user?._id;
@@ -101,10 +95,6 @@ const unsubscribeFromChannel = asyncHandler(async (req, res) => {
     );
 });
 
-/**
- * Get channel info: basic profile + subscriber count + isSubscribed
- * GET /api/v1/user/channel/:username
- */
 const getChannelInfo = asyncHandler(async (req, res) => {
   const { username } = req.params;
   const currentUserId = req.user?._id || null;
@@ -145,4 +135,41 @@ const getChannelInfo = asyncHandler(async (req, res) => {
     );
 });
 
-export { subscribeToChannel, unsubscribeFromChannel, getChannelInfo };
+const getSubscribedChannels = asyncHandler(async (req, res) => {
+  // verifyToken middleware normally ensures req.user exists
+  if (!req?.user) {
+    throw new ApiError(401, "Authentication required");
+  }
+
+  try {
+    const user = req.user._id;
+    if (!user) {
+      throw new ApiError(401, "User not found");
+    }
+
+    // Diagnostic log to help trace requests for subscriptions
+    console.debug(`[subscriptions] fetching for user: ${user}`);
+
+    const subscriptions = await Subscription.find({
+      subscriber: user,
+    }).populate("channel", "username avatar");
+
+    console.debug(`[subscriptions] found ${subscriptions.length} records`);
+
+    const channels = subscriptions.map((sub) => sub.channel);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, channels, "Subscribed channels fetched"));
+  } catch (error) {
+    console.error("[subscriptions] error", error);
+    throw new ApiError(500, "Failed to fetch subscriptions");
+  }
+});
+
+export {
+  subscribeToChannel,
+  unsubscribeFromChannel,
+  getChannelInfo,
+  getSubscribedChannels,
+};

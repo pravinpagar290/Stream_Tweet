@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const backend = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
-const baseURL =
-  (backend || "http://localhost:8000").replace(/\/\+$/, "") + "/api/v1";
+// Determine backend URL robustly. If the env var is empty or just '/', fall back to localhost.
+const rawBackend = import.meta.env.VITE_BACKEND_URL ?? "";
+const backend = rawBackend && rawBackend !== "/" ? rawBackend : "http://localhost:8000";
+const baseURL = backend.replace(/\/\/+$/, "") + "/api/v1";
 
 const api = axios.create({
   baseURL,
