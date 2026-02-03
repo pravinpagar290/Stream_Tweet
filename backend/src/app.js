@@ -6,7 +6,7 @@ const app = express();
 
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(",").map((s) => s.trim())
-  : ["http://localhost:5173"];
+  : ["http://localhost:5173", "https://streamtweet.netlify.app"];
 
 app.use(
   cors({
@@ -36,8 +36,6 @@ app.use("/api/v1/video", videoRouter);
 app.use("/api/v1/tweet", tweetRouter);
 
 app.use((err, req, res, next) => {
-  console.error("[SERVER ERROR]", err.stack || err);
-
   const statusCode = err?.statusCode || 500;
   const message = err?.message || "Internal Server Error";
   const data = err?.data || null;

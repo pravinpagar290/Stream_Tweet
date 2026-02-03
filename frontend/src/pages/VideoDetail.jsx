@@ -110,9 +110,7 @@ export default function VideoDetail() {
         const { data } = await api.get(`/user/channel/${ownerUsername}`);
         setIsSubscribed(!!data?.data?.isSubscribed);
         setSubscriberCount(data?.data?.subscriberCount || 0);
-      } catch {
-        // Ignore errors fetching channel info
-      }
+      } catch {}
     })();
   }, [video]);
 
@@ -148,7 +146,6 @@ export default function VideoDetail() {
       if (err.response?.status !== 401) {
         alert(err.response?.data?.message || "Failed to like video");
       } else {
-        // If 401, redirect to login
         navigate("/login");
       }
     } finally {

@@ -7,21 +7,18 @@ const Tweet = () => {
   const [content, setContent] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
 
-  // new state
   const [tweets, setTweets] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const { user: currentUser } = useAuth();
 
-  // fetch tweets on mount
   React.useEffect(() => {
     const fetchTweets = async () => {
       try {
         setLoading(true);
         setError(null);
-        const res = await api.get("/tweet"); // backend path: /api/v1/tweet
-        const data = res.data?.data ?? []; // ApiResponse -> data field
-        // If logged in, annotate 'liked' by checking likedBy array
+        const res = await api.get("/tweet");
+        const data = res.data?.data ?? [];
         const processed = Array.isArray(data)
           ? data.map((t) => ({
               ...t,
@@ -52,7 +49,6 @@ const Tweet = () => {
     try {
       const res = await api.post("/tweet", { content: content.trim() });
       let created = res.data?.data;
-      // ensure created tweet has liked flag
       if (created)
         created = { ...created, liked: false, likedBy: created.likedBy ?? [] };
       if (created) setTweets((prev) => [created, ...prev]);
@@ -80,12 +76,10 @@ const Tweet = () => {
       const res = await api.post(`/tweet/${tweetId}/like`);
       const updated = res.data?.data;
       if (updated) {
-        // updated now contains liked and updated likedBy/likesCount
         setTweets((prev) =>
           prev.map((t) => (t._id === updated._id ? updated : t)),
         );
       } else {
-        // fallback (should rarely happen now)
         setTweets((prev) =>
           prev.map((t) => {
             if (t._id !== tweetId) return t;
@@ -198,7 +192,6 @@ const Tweet = () => {
                   className="glass-effect p-4 rounded-xl border border-gray-700/50 shadow-md hover:border-cyan-500/30 transition-all duration-300 animate-slideUp"
                 >
                   <div className="flex justify-between items-start mb-2">
-                    {/* Make the entire author section clickable */}
                     {typeof tweet.owner === "object" &&
                     tweet.owner?.username ? (
                       <Link
