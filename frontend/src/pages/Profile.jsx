@@ -19,7 +19,8 @@ export default function Profile() {
 
   useEffect(() => {
     (async () => {
-      const targetUsername = username ?? currentUser?.username;
+      const targetUsername =
+        username ?? currentUser?.userName ?? currentUser?.username;
       if (!targetUsername) {
         if (!isLoggedIn) {
           setLoading(false);

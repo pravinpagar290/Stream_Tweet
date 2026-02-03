@@ -4,11 +4,15 @@ import "./index.css";
 import App from "./App.jsx";
 import { AuthProvider } from "./Auth/AuthContext.jsx";
 import { ThemeProvider } from "./Theme/ThemeContext.jsx";
+import { Provider } from "react-redux";
+import {store} from './store/store.js'
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider>
-    <AuthProvider>
+    <Provider store={store}>
+      <AuthProvider>
       <App />
     </AuthProvider>
-  </ThemeProvider>
+    </Provider>
+  </ThemeProvider>,
 );

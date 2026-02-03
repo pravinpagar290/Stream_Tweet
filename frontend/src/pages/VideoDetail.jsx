@@ -103,10 +103,11 @@ export default function VideoDetail() {
   }, [videoId]);
 
   useEffect(() => {
-    if (!video?.owner?.username) return;
+    const ownerUsername = video?.owner?.userName || video?.owner?.username;
+    if (!ownerUsername) return;
     (async () => {
       try {
-        const { data } = await api.get(`/user/channel/${video.owner.username}`);
+        const { data } = await api.get(`/user/channel/${ownerUsername}`);
         setIsSubscribed(!!data?.data?.isSubscribed);
         setSubscriberCount(data?.data?.subscriberCount || 0);
       } catch {
@@ -157,7 +158,8 @@ export default function VideoDetail() {
 
   const toggleSubscribe = async () => {
     if (!isLoggedIn) return navigate("/login");
-    const un = video.owner.username;
+    const un = video.owner.userName || video.owner.username;
+    if (!un) return;
     setSubLoading(true);
     try {
       if (isSubscribed) {
@@ -300,7 +302,7 @@ export default function VideoDetail() {
 
               <div className="flex items-center justify-between glass-effect rounded-xl p-4 border border-gray-700/50 shadow-lg">
                 <Link
-                  to={`/c/${video.owner.username}`}
+                  to={`/c/${video.owner.userName || video.owner.username}`}
                   className="flex items-center gap-4 group"
                 >
                   <div className="relative">
@@ -308,7 +310,13 @@ export default function VideoDetail() {
                     <img
                       src={
                         video.owner.avatar ||
-                        placeholderDataUrl(50, 50, video.owner.username[0])
+                        placeholderDataUrl(
+                          50,
+                          50,
+                          (video.owner.userName ||
+                            video.owner.username ||
+                            "U")[0],
+                        )
                       }
                       alt=""
                       className="w-12 h-12 rounded-full object-cover relative z-10 border-2 border-gray-800"
@@ -316,7 +324,7 @@ export default function VideoDetail() {
                   </div>
                   <div>
                     <p className="font-bold text-lg group-hover:text-cyan-400 transition-colors">
-                      {video.owner.username}
+                      {video.owner.userName || video.owner.username}
                     </p>
                     <p className="text-xs text-gray-400">
                       {subscriberCount} subscribers
@@ -363,41 +371,14 @@ export default function VideoDetail() {
           </aside>
         </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        @keyframes slideUp {
-          from {
-            transform: translateY(20px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.4s ease-out forwards;
-        }
-        .animate-slideUp {
-          animation: slideUp 0.4s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 }
 
 function RecommendedCard({ video, delay }) {
-  const title = video.title || "Untitled";
+  const title = typeof video.title === "string" ? video.title : "Untitled";
   const thumb = video.thumbnail || placeholderDataUrl(168, 94, "No Image");
-  const uploader = video.owner?.username || "Unknown";
+  const uploader = video.owner?.userName || "Unknown";
   const views = Intl.NumberFormat("en", { notation: "compact" }).format(
     video.views || 0,
   );

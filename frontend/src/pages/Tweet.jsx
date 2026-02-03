@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import api from "../api/axios";
 import { useAuth } from "../Auth/AuthContext";
 
@@ -197,19 +198,40 @@ const Tweet = () => {
                   className="glass-effect p-4 rounded-xl border border-gray-700/50 shadow-md hover:border-cyan-500/30 transition-all duration-300 animate-slideUp"
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg">
-                        {(tweet.owner?.username?.[0] || "U").toUpperCase()}
+                    {/* Make the entire author section clickable */}
+                    {typeof tweet.owner === "object" &&
+                    tweet.owner?.username ? (
+                      <Link
+                        to={`/c/${tweet.owner.username}`}
+                        className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                      >
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg">
+                          {tweet.owner.username.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-white hover:text-cyan-400 transition-colors">
+                            {tweet.owner.username}
+                          </h3>
+                          <p className="text-xs text-gray-400">
+                            {formatTime(tweet.createdAt ?? tweet.created_at)}
+                          </p>
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-500 to-gray-600 flex items-center justify-center font-bold text-white shadow-lg">
+                          U
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-400">
+                            Unknown User
+                          </h3>
+                          <p className="text-xs text-gray-500">
+                            {formatTime(tweet.createdAt ?? tweet.created_at)}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-white hover:text-cyan-400 transition-colors cursor-pointer">
-                          {tweet.owner?.username ?? tweet.owner ?? "Unknown"}
-                        </h3>
-                        <p className="text-xs text-gray-400">
-                          {formatTime(tweet.createdAt ?? tweet.created_at)}
-                        </p>
-                      </div>
-                    </div>
+                    )}
 
                     {(tweet.canDelete || tweet.isOwner || tweet.own) && (
                       <button
@@ -302,22 +324,6 @@ const Tweet = () => {
           </div>
         )}
       </div>
-
-      <style jsx global>{`
-        @keyframes slideUp {
-          from {
-            transform: translateY(20px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-        .animate-slideUp {
-          animation: slideUp 0.4s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 };

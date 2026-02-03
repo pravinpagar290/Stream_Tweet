@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import { upload } from "../store/Slices/uploadSlice";
+import { useDispatch } from "react-redux";
 
 function Upload() {
   const [title, setTitle] = useState("");
@@ -13,6 +14,7 @@ function Upload() {
   const [success, setSuccess] = useState(null);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,36 +28,8 @@ function Upload() {
     setError(null);
     setSuccess(null);
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("videoFile", videoFile);
-
-    if (thumbnail) {
-      formData.append("thumbnail", thumbnail);
-    }
-
-    try {
-      const response = await api.post("/video/upload", formData, {});
-
-      if (response.status === 200) {
-        setSuccess("Video uploaded successfully! Redirecting to home...");
-        setTitle("");
-        setDescription("");
-        setVideoFile(null);
-        setThumbnail(null);
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      }
-    } catch (err) {
-      console.error("Upload failed:", err);
-      setError(
-        err.response?.data?.message || "Upload failed. Please try again.",
-      );
-    } finally {
-      setLoading(false);
-    }
+    dispatch(upload({ title, description, videoFile, thumbnail }));
+    navigate("/");
   };
 
   return (

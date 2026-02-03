@@ -6,7 +6,7 @@ const app = express();
 
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(",").map((s) => s.trim())
-  : ["http://localhost:5173", "https://streamtweet.netlify.app"];
+  : ["http://localhost:5173"];
 
 app.use(
   cors({

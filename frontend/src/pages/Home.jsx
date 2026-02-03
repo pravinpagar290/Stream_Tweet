@@ -17,7 +17,8 @@ const SkeletonCard = () => (
 function VideoCard({ video }) {
   const [thumbLoaded, setThumbLoaded] = useState(false);
 
-  const title = video.title || "Untitled Video";
+  const title =
+    typeof video.title === "string" ? video.title : "Untitled Video";
   const thumb = video.thumbnail || placeholderDataUrl(320, 180, "No Image");
   const author = video.owner?.username || "Unknown Uploader";
   const views = Intl.NumberFormat("en", { notation: "compact" }).format(

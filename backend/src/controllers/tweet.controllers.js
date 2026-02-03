@@ -45,7 +45,7 @@ const createTweet = asyncHandler(async (req, res) => {
     content,
     owner: userId,
   });
-  await newTweet.populate("owner", "username");
+  await newTweet.populate("owner", "username avatar fullName");
 
   return res
     .status(201)
@@ -53,7 +53,10 @@ const createTweet = asyncHandler(async (req, res) => {
 });
 
 const getTweets = asyncHandler(async (req, res) => {
-  const tweets = await Tweet.find().populate("owner", "username");
+  const tweets = await Tweet.find().populate(
+    "owner",
+    "username avatar fullName"
+  );
   return res
     .status(200)
     .json(new ApiResponse(200, tweets, "Tweets fetched successfully"));
@@ -102,7 +105,7 @@ const likeTweet = asyncHandler(async (req, res) => {
 
   const updatedTweet = await Tweet.findById(tweetId).populate(
     "owner",
-    "username"
+    "username avatar fullName"
   );
 
   // Convert to plain object and annotate with liked boolean for the caller
