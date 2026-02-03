@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // Persist user when it changes
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
@@ -33,7 +32,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Expose logout helper
   const logout = async () => {
     try {
       await api.post("/user/logout");
@@ -46,7 +44,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Expose login helper
   const login = (userData, accessToken) => {
     localStorage.setItem("token", accessToken);
     setUser(userData);

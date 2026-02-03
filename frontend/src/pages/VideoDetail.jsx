@@ -42,7 +42,8 @@ const RecSkeleton = () => (
 
 export default function VideoDetail() {
   const { videoId } = useParams();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
+
   const navigate = useNavigate();
   const playerRef = useRef(null);
   const observerRef = useRef(null);
@@ -65,6 +66,21 @@ export default function VideoDetail() {
   const [hasRecordedView, setHasRecordedView] = useState(false);
   const [liked, setLiked] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const isOwner = user?._id === video?.owner?._id;
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want delete the this video ?"))
+      return;
+    try {
+      setLoading(true);
+      await api.delete(`video/${videoId}`);
+      navigate("/");
+    } catch (error) {
+      alert(error.response?.data?.message || "failed to delete the video");
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -288,6 +304,15 @@ export default function VideoDetail() {
                   </button>
                   <HeartPop show={liked} />
                 </div>
+                {isOwner && (
+                  <button
+                    onClick={handleDelete}
+                    className="flex items-center gap-2 px-4 py-2 rounded-full glass-effect hover:bg-red-600/20 hover:text-red-500 hover:border-red-500/50 transition-all border border-transparent"
+                    title="Delete Video"
+                  >
+                    Delete
+                  </button>
+                )}
                 <button
                   onClick={copyLink}
                   className="relative px-4 py-2 rounded-full glass-effect hover:border-cyan-500/50 hover:text-cyan-400 transition-all border border-transparent"
