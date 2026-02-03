@@ -29,7 +29,15 @@ export default function Profile() {
           return;
         }
         setLoading(false);
-        setError("Unable to determine channel username.");
+        setError(
+          <>
+            Unable to determine channel username. Try{" "}
+            <Link to="/login" className="text-cyan-400 underline">
+              logging in again
+            </Link>
+            .
+          </>,
+        );
         return;
       }
 

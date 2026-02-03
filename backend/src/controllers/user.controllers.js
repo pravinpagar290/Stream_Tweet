@@ -36,9 +36,8 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (userExist) {
-    throw new ApiError(409, "Username or email already exists")
-    console.log('user already exist');
-    ;
+    throw new ApiError(409, "Username or email already exists");
+    console.log("user already exist");
   }
 
   const avatarLocalPath = req.files?.avatar?.[0]?.path;
@@ -97,7 +96,7 @@ const loginUser = asyncHandler(async (req, res) => {
     user._id
   );
 
-  const loggedUser = await User.findOne(user._id).select(
+  const loggedUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
 
