@@ -31,11 +31,14 @@ export const toUploadVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Failed to upload video to Cloudinary");
   }
 
-  const uploadedThumbnail = thumbnailFile
-    ? await uploadOnCloudinary(thumbnailFile.path, "image")
-    : null;
-  const thumbnailUrl =
-    uploadedThumbnail?.secure_url || uploadedThumbnail?.url || "";
+  let thumbnailUrl=''
+
+  if(thumbnailFile){
+    const uploadedThumbnail= await uploadOnCloudinary(thumbnailFile.path,'image')
+    thumbnailUrl=uploadedThumbnail?.secure_url || uploadedThumbnail?.url || "";
+  }else if(!thumbnailFile){
+    thumbnailUrl=uploadedVideo.secure_url.replace(/\.[^/.]+$/, ".jpg")
+  }
 
   const videoData = await Video.create({
     videoFile: videoUrl,
