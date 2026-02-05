@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import api from "../api/axios";
 import { placeholderDataUrl } from "../utils/placeholder";
+import AvatarImageChange from "../components/AvatarImageChange";
 
 export default function Profile() {
   const { username } = useParams();
@@ -14,6 +15,7 @@ export default function Profile() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(true);
   const [subLoading, setSubLoading] = useState(false);
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [videos, setVideos] = useState([]);
   const [error, setError] = useState(null);
 
@@ -179,14 +181,37 @@ export default function Profile() {
         <div className="flex flex-col md:flex-row items-center md:items-end gap-6 pb-6 border-b border-gray-800">
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-700 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
-            <Link to={'/'}><img
-              src={
-                channel.avatar ||
-                placeholderDataUrl(150, 150, channel.username[0])
-              }
-              alt={channel.username}
-              className="w-32 h-32 rounded-full object-cover border-4 border-gray-900 relative z-10 bg-gray-800"
-            /></Link>
+            {isOwner ? (
+              <button
+                onClick={() => setIsAvatarModalOpen(true)}
+                className="relative z-10 block rounded-full transition-transform hover:scale-105 focus:outline-none"
+              >
+                <img
+                  src={
+                    channel.avatar ||
+                    placeholderDataUrl(150, 150, channel.username[0])
+                  }
+                  alt={channel.username}
+                  className="w-32 h-32 rounded-full object-cover border-4 border-gray-900 bg-gray-800"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 hover:opacity-100 transition-opacity">
+                  <span className="text-white text-xs font-semibold">
+                    Change
+                  </span>
+                </div>
+              </button>
+            ) : (
+              <Link to={"/"}>
+                <img
+                  src={
+                    channel.avatar ||
+                    placeholderDataUrl(150, 150, channel.username[0])
+                  }
+                  alt={channel.username}
+                  className="w-32 h-32 rounded-full object-cover border-4 border-gray-900 relative z-10 bg-gray-800"
+                />
+              </Link>
+            )}
           </div>
 
           <div className="flex-1 text-center md:text-left">
@@ -268,6 +293,16 @@ export default function Profile() {
           )}
         </div>
       </div>
+
+      {channel && (
+        <AvatarImageChange
+          isOpen={isAvatarModalOpen}
+          onClose={() => setIsAvatarModalOpen(false)}
+          currentAvatar={
+            channel.avatar || placeholderDataUrl(150, 150, channel.username[0])
+          }
+        />
+      )}
     </div>
   );
 }
