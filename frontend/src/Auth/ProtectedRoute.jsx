@@ -1,8 +1,8 @@
-import { useAuth } from "./AuthContext";
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const { isLoggedIn, loading } = useAuth(); // Assuming useAuth exposes loading state
+  const { isLoggedIn, loading } = useSelector((state) => state.auth);
 
   if (loading) {
     return (

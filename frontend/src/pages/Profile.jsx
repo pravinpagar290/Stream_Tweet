@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import api from "../api/axios";
-import { useAuth } from "../Auth/AuthContext";
 import { placeholderDataUrl } from "../utils/placeholder";
 
 export default function Profile() {
   const { username } = useParams();
   const navigate = useNavigate();
-  const { user: currentUser, isLoggedIn } = useAuth();
+  const { user: currentUser, isLoggedIn } = useSelector((state) => state.auth);
 
   const [channel, setChannel] = useState(null);
   const [subscriberCount, setSubscriberCount] = useState(0);
@@ -33,7 +33,10 @@ export default function Profile() {
         setError(
           <>
             Unable to determine channel username. Try{" "}
-            <Link to="/login" className="text-cyan-400 underline">
+            <Link
+              to="/login"
+              className="text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
               logging in again
             </Link>
             .
@@ -175,15 +178,15 @@ export default function Profile() {
       <div className="max-w-6xl mx-auto px-4 md:px-8 -mt-20 relative z-10">
         <div className="flex flex-col md:flex-row items-center md:items-end gap-6 pb-6 border-b border-gray-800">
           <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
-            <img
+            <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-700 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
+            <Link to={'/'}><img
               src={
                 channel.avatar ||
                 placeholderDataUrl(150, 150, channel.username[0])
               }
               alt={channel.username}
               className="w-32 h-32 rounded-full object-cover border-4 border-gray-900 relative z-10 bg-gray-800"
-            />
+            /></Link>
           </div>
 
           <div className="flex-1 text-center md:text-left">
@@ -223,7 +226,7 @@ export default function Profile() {
 
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <span className="w-1 h-8 bg-gradient-to-b from-cyan-400 to-blue-600 rounded-full"></span>
+            <span className="w-1 h-8 bg-gradient-to-b from-white to-gray-700 rounded-full"></span>
             Videos
           </h2>
 

@@ -73,7 +73,7 @@ function WatchHistory() {
   return (
     <div className="min-h-screen text-white p-4 md:p-8 animate-fade-in">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 border-b border-gray-700 pb-4 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent inline-block">
+        <h1 className="text-3xl font-bold mb-8 border-b border-gray-700 pb-4 bg-gradient-to-r from-white to-gray-700 bg-clip-text text-transparent inline-block">
           Watch History
         </h1>
         <div className="space-y-4">

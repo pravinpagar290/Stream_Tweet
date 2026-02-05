@@ -1,5 +1,9 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
 
+body {
+  font-family: "Montserrat", sans-serif;
+}
 /* ============================================
    GLOBAL ANIMATIONS & KEYFRAMES
    ============================================ */
@@ -78,11 +82,50 @@
   }
 }
 
+@keyframes rgb-gradient {
+  0% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
 
+/* ============================================
+   FOCUS-BLUR EFFECT FOR VIDEO CARDS
+   ============================================ */
+
+/* Container that holds video cards - when any card is hovered, blur all cards */
+.video-card-container:has(.video-card:hover) .video-card {
+  filter: blur(4px);
+  opacity: 0.9;
+  transform: scale(0.98);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove blur from the hovered card */
+.video-card-container:has(.video-card:hover) .video-card:hover {
+  filter: blur(0);
+  opacity: 1;
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+/* Default state for video cards */
+.video-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   LIGHT MODE (Monochrome / Black & White)
+   ============================================ */
 
 .light body {
-  background-color: #f0f9ff !important; 
-  color: #0f172a !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
@@ -90,263 +133,239 @@
 
 .light .bg-gray-900 {
   background-color: #ffffff !important;
-  border: 1px solid #e0f2fe;
+  border-color: #f0f0f0 !important;
+  box-shadow: none !important;
 }
 .light .bg-gray-800 {
-  background-color: #f1f5f9 !important;
+  background-color: #ffffff !important;
+  box-shadow: none !important;
 }
 .light .bg-gray-700 {
-  background-color: #e2e8f0 !important;
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.light .glass-effect {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
 }
 
 .light .text-white {
-  color: #0b1220 !important;
+  color: #000000 !important;
+  text-shadow: none !important;
 }
 .light .text-gray-400 {
-  color: #475569 !important;
+  color: #52525b !important; /* Zinc 600 */
 }
 .light .text-gray-300 {
-  color: #334155 !important;
+  color: #27272a !important; /* Zinc 800 */
 }
 .light .text-gray-500 {
-  color: #64748b !important;
+  color: #71717a !important;
 }
 
-.light .border-gray-700 {
-  border-color: #cbd5e1 !important;
-}
+.light .border-gray-700,
 .light .border-gray-800 {
-  border-color: #e2e8f0 !important;
+  border-color: #e4e4e7 !important; /* Zinc 200 */
 }
 
-.light .bg-black {
-  background-color: #ffffff !important;
-}
-
-/* Brand Gradient for Buttons in Light Mode */
+/* Primary Buttons - SOLID BLACK in Light Mode */
 .light .bg-blue-600 {
-  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%) !important;
-  color: white !important;
-  box-shadow: 0 4px 10px rgba(6, 182, 212, 0.2);
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  border: 1px solid transparent;
 }
 
 .light .bg-blue-600:hover {
-  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%) !important;
-  box-shadow: 0 6px 15px rgba(6, 182, 212, 0.3);
+  background: #27272a !important; /* Charcoal/Zinc 800 */
+  box-shadow: none !important;
 }
 
+/* Red buttons (Logout) - Keep red but muted or black? Usually keep red for destructive */
 .light .bg-red-600 {
-  background-color: #ef4444 !important;
+  background: #ef4444 !important;
   color: white !important;
+  box-shadow: none !important;
 }
 
+/* Inputs */
 .light input,
 .light textarea {
   background-color: #ffffff !important;
-  color: #0f172a !important;
-  border: 1px solid #cbd5e1 !important;
-  transition: all 0.2s ease;
+  color: #000000 !important;
+  border: 1px solid #d4d4d8 !important; /* Zinc 300 */
+  box-shadow: none !important;
 }
 
 .light input:focus,
 .light textarea:focus {
-  border-color: #06b6d4 !important;
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1) !important;
-  outline: none !important;
+  border-color: #000000 !important;
+  box-shadow: none !important;
+}
+
+/* OMITTED: Override Brand Gradients (Removed as requested to simplify) */
+
+/* Specifically for text that relies on gradient clips */
+.light .bg-clip-text {
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+}
+
+/* Links */
+.light a {
+  color: #000000;
+  text-shadow: none !important;
+}
+.light a:hover {
+  text-decoration: none;
+  text-shadow: none !important;
 }
 
 .light img {
   opacity: 1 !important;
+  box-shadow: none !important;
 }
 
-
+/* Utilities to kill shadows in light mode */
+.light .shadow,
+.light .shadow-md,
+.light .shadow-lg,
+.light .shadow-xl,
+.light .shadow-2xl {
+  box-shadow: none !important;
+}
 
 .dark body {
-  background: linear-gradient(135deg, #020617 0%, #080c18 100%) !important;
-  color: #e2e8f0 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
   transition:
-    background 0.3s ease,
+    background-color 0.3s ease,
     color 0.3s ease;
   animation: fadeIn 0.5s ease-out;
 }
 
-/* Deep Background Layers */
+/* Deep Background Layers - Pure Black */
 .dark .bg-gray-900 {
-  background-color: #0f172a !important; /* Slate 900 */
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(6, 182, 212, 0.05);
+  background-color: #000000 !important;
+  border-right: 1px solid #2f3336;
 }
 
 .dark .bg-gray-800 {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-  backdrop-filter: blur(10px);
+  background-color: #000000 !important;
+  border: 1px solid #2f3336;
 }
 
 .dark .bg-gray-700 {
-  background-color: #334155 !important;
-  backdrop-filter: blur(8px);
+  background-color: #16181c !important;
+  border: 1px solid #2f3336;
 }
 
 .dark .bg-black {
-  background-color: #020617 !important;
+  background-color: #000000 !important;
 }
 
 /* Text Colors */
 .dark .text-white {
-  color: #f1f5f9 !important;
-  text-shadow: 0 0 10px rgba(6, 182, 212, 0.1);
+  color: #ffffff !important;
+  text-shadow: none;
 }
 
 .dark .text-gray-300 {
-  color: #cbd5e1 !important;
+  color: #e7e9ea !important;
 }
 
 .dark .text-gray-400 {
-  color: #94a3b8 !important;
+  color: #71767b !important;
 }
 
 .dark .text-gray-500 {
-  color: #64748b !important;
+  color: #536471 !important;
 }
 
 .dark input,
-.dark textarea,
-.dark .bg-gray-700 {
-  background: rgba(15, 23, 42, 0.6) !important;
-  color: #e2e8f0 !important;
-  border: 1px solid rgba(6, 182, 212, 0.1) !important;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dark input:hover,
-.dark textarea:hover {
-  border-color: rgba(6, 182, 212, 0.3) !important;
-  background: rgba(15, 23, 42, 0.8) !important;
+.dark textarea {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #333639 !important;
 }
 
 .dark input:focus,
 .dark textarea:focus {
-  border-color: #06b6d4 !important;
-  background: rgba(15, 23, 42, 0.95) !important;
-  box-shadow:
-    0 0 0 3px rgba(6, 182, 212, 0.15),
-    0 8px 16px rgba(0, 0, 0, 0.4) !important;
+  border-color: #ffffff !important;
+  background-color: #000000 !important;
+  box-shadow: 0 0 0 1px #ffffff !important;
   outline: none !important;
 }
 
-.dark .border-gray-700 {
-  border-color: rgba(6, 182, 212, 0.1) !important;
-}
-
+.dark .border-gray-700,
 .dark .border-gray-800 {
-  border-color: rgba(6, 182, 212, 0.05) !important;
+  border-color: #2f3336 !important;
 }
 
 .dark .bg-blue-600 {
-  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%) !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid transparent;
+  box-shadow: none;
 }
 
 .dark .bg-blue-600:hover {
-  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%) !important;
-  box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
-  transform: translateY(-2px);
+  background-color: #e6e6e6 !important;
+  transform: none;
 }
 
 .dark .bg-blue-700 {
-  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%) !important;
+  background-color: #d9d9d9 !important;
 }
 
 .dark .bg-red-600 {
-  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%) !important;
-  color: #fff !important;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #000000 !important;
+  color: #ef4444 !important;
+  border: 1px solid #ef4444;
 }
 
 .dark .bg-red-600:hover {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-  transform: translateY(-2px);
+  background-color: #160404 !important;
 }
 
-.dark .hover\:bg-blue-700:hover {
-  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%) !important;
-}
-
-/* Shadows */
 .dark .shadow,
-.dark .shadow-md {
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.5),
-    0 2px 8px rgba(6, 182, 212, 0.05) !important;
-}
-
+.dark .shadow-md,
 .dark .shadow-lg {
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.6),
-    0 4px 12px rgba(6, 182, 212, 0.1) !important;
+  box-shadow: none !important;
+  border: 1px solid #2f3336;
 }
 
-/* Links (Cyan) */
+/* Links */
 .dark a {
-  color: #22d3ee !important; /* Cyan 400 */
+  color: #ffffff !important;
   text-decoration: none;
-  transition: all 0.2s ease;
-  position: relative;
 }
 
 .dark a:hover {
-  color: #67e8f9 !important;
-  text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
-}
-
-.dark a::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #22d3ee, #3b82f6);
-  transition: width 0.3s ease;
-}
-
-.dark a:hover::after {
-  width: 100%;
+  text-decoration: none;
 }
 
 .dark .react-player {
-  background-color: #020617 !important;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(6, 182, 212, 0.1);
+  background-color: #000000 !important;
+  border: 1px solid #2f3336;
 }
 
 .dark .modal,
 .dark .overlay {
-  background: rgba(2, 6, 23, 0.95) !important;
-  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(5px);
 }
 
 .dark :focus {
-  outline: 2px solid rgba(6, 182, 212, 0.5) !important;
+  outline: 1px solid #ffffff !important;
   outline-offset: 2px;
 }
 
 .dark img {
   filter: none !important;
-  transition:
-    transform 0.3s ease,
-    filter 0.3s ease;
 }
-
-
 
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out;
@@ -380,9 +399,9 @@
 }
 
 .glass-effect {
-  background: rgba(15, 23, 42, 0.7);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(6, 182, 212, 0.1);
+  border: 1px solid #333;
 }
 
 * {
@@ -410,21 +429,20 @@
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: #020617;
+  background: #000000;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  background: #333;
   border-radius: 5px;
-  border: 2px solid #020617;
+  border: 2px solid #000;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #0891b2, #2563eb);
+  background: #555;
 }
 
 .dark ::selection {
-  background-color: rgba(6, 182, 212, 0.3);
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
 }
-

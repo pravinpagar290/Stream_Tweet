@@ -1,8 +1,6 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios";
-import { useState } from "react";
 import { placeholderDataUrl } from "../utils/placeholder";
 
 const SkeletonCard = () => (
@@ -109,8 +107,7 @@ const LikedVideos = () => {
     return (
       <div className="container mx-auto px-4 py-6">
         <h1 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-          <span className="text-pink-500">
-          </span>
+          <span className="text-pink-500"></span>
           Liked Videos
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">

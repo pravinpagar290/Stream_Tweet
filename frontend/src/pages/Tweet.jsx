@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import api from "../api/axios";
-import { useAuth } from "../Auth/AuthContext";
 
 const Tweet = () => {
   const [content, setContent] = React.useState("");
@@ -10,7 +10,7 @@ const Tweet = () => {
   const [tweets, setTweets] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const { user: currentUser } = useAuth();
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   React.useEffect(() => {
     const fetchTweets = async () => {
@@ -133,7 +133,7 @@ const Tweet = () => {
   return (
     <div className="min-h-screen text-white p-4 md:p-8 animate-fade-in">
       <div className="max-w-2xl mx-auto space-y-6">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-700 bg-clip-text text-transparent">
           Tweets
         </h2>
 

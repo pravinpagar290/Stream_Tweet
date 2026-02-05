@@ -66,8 +66,8 @@ function Register() {
 
   return (
     <div className="min-h-screen text-white flex justify-center items-center p-4 animate-fade-in">
-      <div className="max-w-md w-full glass-effect p-8 rounded-2xl shadow-2xl border border-gray-700 animate-scale-in">
-        <h2 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+      <div className="max-w-md w-full glass-effect p-8 rounded-2xl shadow-2xl border border-gray-700 animate-scale-in overflow-hidden group">
+        <h2 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r bg-white bg-clip-text text-transparent">
           Create Account
         </h2>
 
@@ -248,6 +248,21 @@ function Register() {
             Log in
           </Link>
         </p>
+
+        {/* RGB Animated Underline - Expands from Center */}
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 group-hover:w-full 
+                     transition-all duration-700 ease-out origin-center"
+          style={{
+            background:
+              "linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)",
+            backgroundSize: "200% 100%",
+            animation: "rgb-gradient 3s linear infinite",
+            boxShadow:
+              "0 0 10px rgba(255, 0, 255, 0.9), 0 0 20px rgba(0, 255, 255, 0.7), 0 0 30px rgba(138, 43, 226, 0.6)",
+            filter: "brightness(1.3)",
+          }}
+        />
       </div>
     </div>
   );
