@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../Auth/AuthContext";
+import { useDispatch } from "react-redux";
+import { login } from "../store/Slices/authSlice";
 import api from "../api/axios";
 
 function Login() {
@@ -12,7 +13,7 @@ function Login() {
   } = useForm();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
-  const { login } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -29,7 +30,7 @@ function Login() {
         throw new Error("Invalid response from server");
       }
 
-      login(user, accessToken); // Update auth context
+      dispatch(login({ user, accessToken }));
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
@@ -46,11 +47,11 @@ function Login() {
   return (
     <div className="flex flex-col justify-center min-h-screen py-12 sm:px-6 lg:px-8 text-white animate-fade-in">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+        <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r bg-white bg-clip-text text-transparent">
           Welcome Back
         </h2>
 
-        <div className="bg-gray-800/50 backdrop-blur py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-700">
+        <div className="relative bg-gray-800/ backdrop-blur py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-700 overflow-hidden group">
           {serverError && (
             <div className="mb-4 p-3 rounded bg-red-500/10 border border-red-500/50 text-red-400 text-sm text-center">
               {serverError}
@@ -185,6 +186,21 @@ function Login() {
               </Link>
             </div>
           </div>
+
+          {/* RGB Animated Underline - Expands from Center */}
+          <div
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 group-hover:w-full 
+                       transition-all duration-700 ease-out origin-center"
+            style={{
+              background:
+                "linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)",
+              backgroundSize: "200% 100%",
+              animation: "rgb-gradient 3s linear infinite",
+              boxShadow:
+                "0 0 10px rgba(255, 0, 255, 0.9), 0 0 20px rgba(0, 255, 255, 0.7), 0 0 30px rgba(138, 43, 226, 0.6)",
+              filter: "brightness(1.3)",
+            }}
+          />
         </div>
       </div>
     </div>

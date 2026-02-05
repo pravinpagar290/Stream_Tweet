@@ -54,7 +54,7 @@ const SubscribedChannels = () => {
   return (
     <div className="min-h-screen text-white p-4 md:p-8 animate-fade-in">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 border-b border-gray-700 pb-4 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent inline-block">
+        <h1 className="text-3xl font-bold mb-8 border-b border-gray-700 pb-4 bg-gradient-to-r from-white to-gray-700 bg-clip-text text-transparent inline-block">
           Subscribed Channels
         </h1>
         <div className="space-y-4">
@@ -79,7 +79,7 @@ const SubscribedChannels = () => {
                   className="flex items-center gap-4 p-4 glass-effect rounded-xl hover:bg-gray-800/50 transition-all duration-300 hover:scale-105 border border-transparent hover:border-cyan-500/30 group shadow-md"
                 >
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-700 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
                     <img
                       src={
                         ch.avatar ||

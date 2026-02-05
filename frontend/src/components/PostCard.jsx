@@ -1,9 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import api from "../api/axios";
-import { useAuth } from "../Auth/AuthContext";
 
 export default function PostCard({ post, onDelete }) {
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth);
   const [deleting, setDeleting] = React.useState(false);
   const isOwner =
     user && post.owner && user._id && post.owner._id
@@ -27,7 +27,7 @@ export default function PostCard({ post, onDelete }) {
   };
 
   return (
-    <div className="glass-effect p-5 rounded-xl text-white border border-gray-700 hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg animate-scale-in">
+    <div className="relative glass-effect p-5 rounded-xl text-white border border-gray-700 hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg animate-scale-in overflow-hidden group">
       <div className="flex items-start gap-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
@@ -67,6 +67,21 @@ export default function PostCard({ post, onDelete }) {
           </div>
         )}
       </div>
+
+      {/* RGB Animated Underline - Expands from Center */}
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 group-hover:w-full 
+                   transition-all duration-500 ease-out origin-center"
+        style={{
+          background:
+            "linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)",
+          backgroundSize: "200% 100%",
+          animation: "rgb-gradient 3s linear infinite",
+          boxShadow:
+            "0 0 8px rgba(255, 0, 255, 0.8), 0 0 15px rgba(0, 255, 255, 0.6), 0 0 25px rgba(138, 43, 226, 0.5)",
+          filter: "brightness(1.2)",
+        }}
+      />
     </div>
   );
 }

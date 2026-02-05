@@ -1,124 +1,84 @@
 import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../Auth/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../store/Slices/authSlice";
 import { useTheme } from "../Theme/ThemeContext.jsx";
+import LogoLight from "../assets/st-l1.png";
+import LogoDark from "../assets/st-l2.png";
+import { MdNightlight } from "react-icons/md";
+import { CiLight } from "react-icons/ci";
+
+import SideBar from "./SideBar";
 
 function Header() {
-  const { isLoggedIn, user, logout } = useAuth();
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const { theme, toggleTheme } = useTheme();
   const [loggingOut, setLoggingOut] = React.useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       setLoggingOut(true);
-      await logout();
+      await dispatch(logoutUser()).unwrap();
       navigate("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
     } finally {
       setLoggingOut(false);
     }
   };
 
   return (
-    <header className="glass-effect text-white shadow-lg sticky top-0 z-50 border-b border-gray-800 animate-slide-in-left">
-      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-6">
+    <header className=" text-white shadow-lg sticky top-0 z-50 border-b border-gray-800 animate-slide-in-left">
+      <nav className="container mx-auto  py-4 flex items-center justify-between">
+        <div className="flex items-center gap-9">
           <Link
             to="/"
-            className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent hover:from-cyan-300 hover:to-blue-500 transition-all duration-300"
+            className="text-2xl font-bold bg-gradient-to-r from-white to-gray-700 bg-clip-text text-transparent hover:from-cyan-300 hover:to-blue-500 transition-all duration-300"
           >
-            StreamTweet
+            <img
+              className="h-7 w-auto sm:h-8 md:h-10 object-contain"
+              src={theme === "light" ? LogoLight : LogoDark}
+              alt="StreamTweet Logo"
+            />
           </Link>
-
-          <div className="hidden md:flex items-center gap-2">
-            <NavLink
-              to="/"
-              end
-              className={({ isActive }) =>
-                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
-                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                }`
-              }
-            >
-              Home
-            </NavLink>
-
-            <NavLink
-              to="/upload"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
-                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                }`
-              }
-            >
-              Upload
-            </NavLink>
-
-            <NavLink
-              to="/history"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
-                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                }`
-              }
-            >
-              History
-            </NavLink>
-            <NavLink
-              to="/subscriptions"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
-                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                }`
-              }
-            >
-              Subscriptions
-            </NavLink>
-
-            <NavLink
-              to="/likedvideos"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
-                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                }`
-              }
-            >
-              Liked video
-            </NavLink>
-
-            <NavLink
-              to="/tweets"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
-                    : "text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                }`
-              }
-            >
-              Tweets
-            </NavLink>
-          </div>
         </div>
 
+        <SideBar
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+        />
+
         <div className="flex items-center space-x-3">
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 rounded-full hover:bg-gray-800 text-white-300 hover:text-white transition-colors order-last md:order-none"
+            aria-label="Open Menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
             className="px-3 py-2 rounded-lg border border-gray-700 hover:border-cyan-500 hover:bg-gray-700/50 transition-all duration-300 text-xl hover:scale-110"
             title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           >
-            {theme === "dark" ? "🌙" : "☀️"}
+            {theme === "dark" ? <MdNightlight /> : <CiLight />}
           </button>
 
           {isLoggedIn ? (

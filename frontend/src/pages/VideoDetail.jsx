@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import ReactPlayer from "react-player";
-import { useAuth } from "../Auth/AuthContext";
+import { useSelector } from "react-redux";
 import { placeholderDataUrl } from "../utils/placeholder";
+import RecommendedCard from "../components/RecommendedCard";
+import { SlLike } from "react-icons/sl";
 
 const HeartPop = ({ show }) => (
   <span
@@ -42,7 +44,7 @@ const RecSkeleton = () => (
 
 export default function VideoDetail() {
   const { videoId } = useParams();
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const playerRef = useRef(null);
@@ -236,7 +238,10 @@ export default function VideoDetail() {
       <div className="min-h-screen flex items-center justify-center bg-gray-900 text-red-400">
         <div className="text-center">
           <p className="text-xl mb-4">{error}</p>
-          <Link to="/" className="text-cyan-400 hover:underline">
+          <Link
+            to="/"
+            className="text-cyan-400 hover:text-cyan-300 transition-colors"
+          >
             Go home
           </Link>
         </div>
@@ -300,7 +305,7 @@ export default function VideoDetail() {
                         : "glass-effect hover:border-cyan-500/50 hover:text-cyan-400"
                     }`}
                   >
-                    {likeLoading ? "…" : "👍"} Like
+                    {likeLoading ? "…" : <SlLike />} Like
                   </button>
                   <HeartPop show={liked} />
                 </div>
@@ -328,7 +333,7 @@ export default function VideoDetail() {
                   className="flex items-center gap-4 group"
                 >
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-700 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
                     <img
                       src={
                         video.owner.avatar ||
@@ -359,7 +364,7 @@ export default function VideoDetail() {
                   className={`px-6 py-2 rounded-full font-semibold transition-all shadow-lg ${
                     isSubscribed
                       ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                      : "bg-red-600 text-white hover:bg-red-700 hover:shadow-red-600/30 hover:scale-105"
+                      : "bg-white text-black hover:bg-red-700 hover:shadow-red-600/30"
                   }`}
                 >
                   {subLoading ? "…" : isSubscribed ? "Subscribed" : "Subscribe"}
@@ -394,47 +399,5 @@ export default function VideoDetail() {
         </div>
       </div>
     </div>
-  );
-}
-
-function RecommendedCard({ video, delay }) {
-  const title = typeof video.title === "string" ? video.title : "Untitled";
-  const thumb = video.thumbnail || placeholderDataUrl(168, 94, "No Image");
-  const uploader = video.owner?.userName || "Unknown";
-  const views = Intl.NumberFormat("en", { notation: "compact" }).format(
-    video.views || 0,
-  );
-
-  return (
-    <Link
-      to={`/video/${video._id}`}
-      className="flex gap-3 p-2 rounded-lg glass-effect hover:bg-white/5 border border-transparent hover:border-cyan-500/30 transition-all duration-300 opacity-0 animate-slideUp group"
-      style={{ animationDelay: `${delay}ms`, animationFillMode: "forwards" }}
-    >
-      <div className="relative w-40 h-24 rounded-lg overflow-hidden shrink-0 bg-gray-900 shadow-md">
-        <video
-          src={video.videoFile}
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover hidden group-hover:block"
-          onMouseOver={(e) => e.target.play()}
-          onMouseOut={(e) => e.target.pause()}
-        />
-        <img
-          src={thumb}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
-        />
-      </div>
-
-      <div className="flex-1 min-w-0 flex flex-col justify-center">
-        <h3 className="text-sm font-semibold line-clamp-2 group-hover:text-cyan-400 transition-colors">
-          {title}
-        </h3>
-        <p className="text-xs text-gray-400 mt-1">{uploader}</p>
-        <p className="text-xs text-gray-500">{views} views</p>
-      </div>
-    </Link>
   );
 }
