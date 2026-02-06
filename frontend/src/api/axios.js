@@ -33,8 +33,13 @@ api.interceptors.response.use(
       error?.response?.data?.data?.message ??
       error?.message;
 
-    if (status === 401) {
+    // Clear auth data when access token is expired or invalid (401/403)
+    // The app will detect this and update the auth state accordingly
+    if (status === 401 || status === 403) {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      // Trigger a storage event to notify other tabs/windows
+      window.dispatchEvent(new Event("storage"));
     }
 
     error.normalizedMessage = serverMessage || "An error occurred";

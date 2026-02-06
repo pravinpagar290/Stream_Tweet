@@ -9,6 +9,7 @@ import {
   updateAccountDetails,
   getUserProfile,
   getUserHistory,
+  getCurrentUser,
 } from "../controllers/user.controllers.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
@@ -16,7 +17,7 @@ import {
   subscribeToChannel,
   unsubscribeFromChannel,
   getChannelInfo,
-  getSubscribedChannels
+  getSubscribedChannels,
 } from "../controllers/subscription.controllers.js";
 
 import { getLikedVideos } from "../controllers/like.controllers.js";
@@ -41,6 +42,8 @@ router.route("/login").post(loginUser);
 
 router.route("/logout").post(verifyToken, logOutUser);
 
+router.route("/current-user").get(verifyToken, getCurrentUser);
+
 router.route("/refresh-token").post(refreshAccessToken);
 
 router.route("/change-password").post(verifyToken, changeCurrentPassword);
@@ -57,10 +60,8 @@ router
   .route("/update-account-details")
   .patch(verifyToken, updateAccountDetails);
 
-// public channel info (profile page)
 router.route("/c/:username").get(getUserProfile);
 
-// protected channel info (includes isSubscribed for current user)
 router.get("/channel/:username", verifyToken, getChannelInfo);
 
 router.route("/history").get(verifyToken, getUserHistory);

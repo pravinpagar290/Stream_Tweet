@@ -72,10 +72,6 @@ const authSlice = createSlice({
       })
       .addCase(getCurrentUser.rejected, (state) => {
         state.loading = false;
-        state.user = null;
-        state.isLoggedIn = false;
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
       });
   },
 });

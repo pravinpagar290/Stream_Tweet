@@ -41,7 +41,6 @@ const RecommendedCard = ({ video, delay }) => {
         <p className="text-xs text-gray-500">{views} views</p>
       </div>
 
-      {/* RGB Animated Underline - Expands from Center */}
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-0 group-hover:w-full 
                    transition-all duration-500 ease-out origin-center"

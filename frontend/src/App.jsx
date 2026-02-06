@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getCurrentUser } from "./store/Slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser, logout } from "./store/Slices/authSlice";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Layout from "./components/Layout";
@@ -17,10 +17,34 @@ import LikedVideos from "./pages/LikedVideos";
 
 function App() {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
-    dispatch(getCurrentUser());
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(getCurrentUser());
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    const syncAuthState = () => {
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
+
+      if (isLoggedIn && (!token || !user)) {
+        dispatch(logout());
+      }
+    };
+
+    window.addEventListener("storage", syncAuthState);
+
+    const interval = setInterval(syncAuthState, 1000);
+
+    return () => {
+      window.removeEventListener("storage", syncAuthState);
+      clearInterval(interval);
+    };
+  }, [dispatch, isLoggedIn]);
 
   return (
     <BrowserRouter>

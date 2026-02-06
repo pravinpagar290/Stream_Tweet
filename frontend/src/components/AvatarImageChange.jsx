@@ -41,7 +41,6 @@ const AvatarImageChange = ({ isOpen, onClose, currentAvatar }) => {
       });
       await dispatch(getCurrentUser()).unwrap();
       onClose();
-      // Optional: Show success message/toast
     } catch (err) {
       console.error("Avatar upload failed", err);
       setError(err?.response?.data?.message || "Failed to update avatar");
@@ -55,7 +54,6 @@ const AvatarImageChange = ({ isOpen, onClose, currentAvatar }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
       <div className="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-md shadow-2xl relative overflow-hidden animate-scale-in">
-        {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-800">
           <h2 className="text-xl font-bold text-white">Change Avatar</h2>
           <button
@@ -66,7 +64,6 @@ const AvatarImageChange = ({ isOpen, onClose, currentAvatar }) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="p-8 flex flex-col items-center gap-6">
           <div className="relative group w-40 h-40">
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>

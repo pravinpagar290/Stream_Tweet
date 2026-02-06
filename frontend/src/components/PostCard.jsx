@@ -68,7 +68,6 @@ export default function PostCard({ post, onDelete }) {
         )}
       </div>
 
-      {/* RGB Animated Underline - Expands from Center */}
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 group-hover:w-full 
                    transition-all duration-500 ease-out origin-center"

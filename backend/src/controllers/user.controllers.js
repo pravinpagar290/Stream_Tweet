@@ -325,6 +325,24 @@ const getUserHistory = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, raw, "Watch history fetched successfully"));
 });
 
+const getCurrentUser = asyncHandler(async (req, res) => {
+  if (!req.user) {
+    throw new ApiError(401, "Authentication required");
+  }
+
+  const user = await User.findById(req.user._id).select(
+    "-password -refreshToken"
+  );
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Current user fetched successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -335,4 +353,5 @@ export {
   updateAccountDetails,
   getUserProfile,
   getUserHistory,
+  getCurrentUser,
 };
