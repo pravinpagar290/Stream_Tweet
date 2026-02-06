@@ -136,7 +136,6 @@ const getChannelInfo = asyncHandler(async (req, res) => {
 });
 
 const getSubscribedChannels = asyncHandler(async (req, res) => {
-  // verifyToken middleware normally ensures req.user exists
   if (!req?.user) {
     throw new ApiError(401, "Authentication required");
   }
@@ -147,7 +146,6 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
       throw new ApiError(401, "User not found");
     }
 
-    // Diagnostic log to help trace requests for subscriptions
     console.debug(`[subscriptions] fetching for user: ${user}`);
 
     const subscriptions = await Subscription.find({

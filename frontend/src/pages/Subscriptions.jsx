@@ -96,9 +96,6 @@ const SubscribedChannels = () => {
                     <p className="text-sm text-gray-400 truncate">
                       @{ch.username}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {ch.subscribersCount || 0} subscribers
-                    </p>
                   </div>
                 </Link>
               ))}

@@ -31,7 +31,7 @@ function Header() {
   };
 
   return (
-    <header className=" text-white shadow-lg sticky top-0 z-50 border-b border-gray-800 animate-slide-in-left">
+    <header className="bg-black text-white shadow-lg sticky top-0 z-50 border-b  border-gray-800 animate-slide-in-left">
       <nav className="container mx-auto  py-4 flex items-center justify-between">
         <div className="flex items-center gap-9">
           <Link
