@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser, logout } from "./store/Slices/authSlice";
+import { refreshAccessToken } from "./utils/tokenRefresh";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Layout from "./components/Layout";
@@ -25,6 +26,18 @@ function App() {
       dispatch(getCurrentUser());
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const refreshInterval = setInterval(
+      () => {
+        refreshAccessToken().catch(() => {});
+      },
+      14 * 60 * 1000,
+    );
+    return () => clearInterval(refreshInterval);
+  }, []);
 
   useEffect(() => {
     const syncAuthState = () => {
