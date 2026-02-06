@@ -110,7 +110,7 @@ body {
 .video-card-container:has(.video-card:hover) .video-card:hover {
   filter: blur(0);
   opacity: 1;
-  transform: scale(1.05);
+  transform: scale(1);
   z-index: 10;
 }
 
