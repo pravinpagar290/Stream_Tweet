@@ -3,8 +3,8 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/Slices/authSlice";
 import { useTheme } from "../Theme/ThemeContext.jsx";
-import LogoLight from "../assets/st-l1.png";
-import LogoDark from "../assets/st-l2.png";
+import LogoLight from "../assets/light-theme-logo.png";
+import LogoDark from "../assets/Dark-theme-logo.png";
 import { MdNightlight } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 
@@ -31,7 +31,7 @@ function Header() {
   };
 
   return (
-    <header className="bg-black text-white shadow-lg sticky top-0 z-50 border-b  border-gray-800 animate-slide-in-left">
+    <header className=" text-white shadow-lg sticky top-0 z-50 border-b  border-gray-800 animate-slide-in-left">
       <nav className="container mx-auto  py-4 flex items-center justify-between">
         <div className="flex items-center gap-9">
           <Link
