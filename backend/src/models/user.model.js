@@ -54,19 +54,19 @@ const userSchema = new Schema(
   }
 );
 
-// Hash password before saving
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-// Compare password
+
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-// Generate Access Token
+
 userSchema.methods.GetAccessToken = function () {
   return jwt.sign(
     {
@@ -82,7 +82,7 @@ userSchema.methods.GetAccessToken = function () {
   );
 };
 
-// Generate Refresh Token
+
 userSchema.methods.GetRefreshToken = function () {
   return jwt.sign(
     {
