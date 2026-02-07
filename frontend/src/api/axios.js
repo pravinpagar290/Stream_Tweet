@@ -83,7 +83,6 @@ api.interceptors.response.use(
       }
     }
 
-    // For 403 or other errors, just clear auth
     if (status === 403) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
