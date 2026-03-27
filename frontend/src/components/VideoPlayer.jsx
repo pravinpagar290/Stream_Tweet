@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import "videojs-contrib-quality-levels";
+import "videojs-hls-quality-selector";
 
 const VideoPlayer = ({ src, poster, onReady }) => {
   const videoRef = useRef(null);
@@ -28,6 +30,11 @@ const VideoPlayer = ({ src, poster, onReady }) => {
           type: getSourceType(src)
         }]
       }, () => {
+        // Add manual quality selector button
+        player.hlsQualitySelector({
+          displayCurrentQuality: true,
+        });
+
         if (onReady) onReady(player);
       }));
     } else {

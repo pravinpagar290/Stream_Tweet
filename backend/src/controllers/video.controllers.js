@@ -27,7 +27,15 @@ export const toUploadVideo = asyncHandler(async (req, res) => {
 
   
   const uploadedVideo = await uploadOnCloudinary(videoFile.path, "video");
-  const videoUrl = uploadedVideo?.eager[0].secure_url || uploadedVideo?.secure_url;
+  
+  // Find the HLS (.m3u8) link in the eager array
+  let videoUrl = uploadedVideo?.eager?.find(item => item.format === "m3u8")?.secure_url;
+
+  // Fallback: If eager is missing but it's a video, use the original secure_url
+  if (!videoUrl) {
+    videoUrl = uploadedVideo?.secure_url || uploadedVideo?.url;
+  }
+
   if (!videoUrl) {
     throw new ApiError(400, "Failed to upload video to Cloudinary");
   }
