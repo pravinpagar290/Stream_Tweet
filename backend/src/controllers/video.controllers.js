@@ -25,8 +25,9 @@ export const toUploadVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Only MP4 videos are allowed");
   }
 
+  
   const uploadedVideo = await uploadOnCloudinary(videoFile.path, "video");
-  const videoUrl = uploadedVideo?.secure_url || uploadedVideo?.url;
+  const videoUrl = uploadedVideo?.eager[0].secure_url || uploadedVideo?.secure_url;
   if (!videoUrl) {
     throw new ApiError(400, "Failed to upload video to Cloudinary");
   }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
-import ReactPlayer from "react-player";
+import VideoPlayer from "../components/VideoPlayer";
 import { useSelector } from "react-redux";
 import { placeholderDataUrl } from "../utils/placeholder";
 import RecommendedCard from "../components/RecommendedCard";
@@ -55,7 +55,7 @@ export default function VideoDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [playing, setPlaying] = useState(false);
+
   const [playerError, setPlayerError] = useState(null);
 
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -137,12 +137,16 @@ export default function VideoDetail() {
       if (e.target.tagName === "INPUT") return;
       if (e.code === "Space") {
         e.preventDefault();
-        setPlaying((p) => !p);
+        const player = playerRef.current;
+        if (player) {
+          player.paused() ? player.play() : player.pause();
+        }
       }
       if (e.code === "KeyM") {
-        playerRef.current?.getInternalPlayer()?.muted
-          ? (playerRef.current.getInternalPlayer().muted = false)
-          : (playerRef.current.getInternalPlayer().muted = true);
+        const player = playerRef.current;
+        if (player) {
+          player.muted(!player.muted());
+        }
       }
     };
     window.addEventListener("keydown", onKey);
@@ -197,10 +201,17 @@ export default function VideoDetail() {
     setTimeout(() => setCopied(false), 1500);
   };
 
-  const handleStart = () => {
-    if (!hasRecordedView && isLoggedIn) {
-      setHasRecordedView(true);
-    }
+  const handlePlayerReady = (player) => {
+    playerRef.current = player;
+    player.on("play", () => {
+      if (!hasRecordedView && isLoggedIn) {
+        setHasRecordedView(true);
+      }
+    });
+
+    player.on("error", () => {
+      setPlayerError("Playback failed.");
+    });
   };
 
   useEffect(() => {
@@ -261,24 +272,10 @@ export default function VideoDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden shadow-2xl animate-fadeIn border border-gray-800">
-              <ReactPlayer
-                ref={playerRef}
-                url={video.videoFile}
-                playing={playing}
-                controls
-                width="100%"
-                height="100%"
-                light={video.thumbnail}
-                onStart={handleStart}
-                onPlay={() => setPlaying(true)}
-                onPause={() => setPlaying(false)}
-                onError={(e) => {
-                  console.error(e);
-                  setPlayerError("Playback failed.");
-                }}
-                config={{
-                  file: { attributes: { controlsList: "nodownload" } },
-                }}
+              <VideoPlayer
+                src={video.videoFile}
+                poster={video.thumbnail}
+                onReady={handlePlayerReady}
               />
               {playerError && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/70 text-red-400">
