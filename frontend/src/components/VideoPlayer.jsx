@@ -19,24 +19,35 @@ const VideoPlayer = ({ src, poster, onReady }) => {
       const videoElement = videoRef.current;
       if (!videoElement) return;
 
-      const player = (playerRef.current = videojs(videoElement, {
-        autoplay: false,
-        controls: true,
-        responsive: true,
-        fluid: true,
-        poster: poster,
-        sources: [{
-          src: src,
-          type: getSourceType(src)
-        }]
-      }, () => {
-        // Add manual quality selector button
-        player.hlsQualitySelector({
-          displayCurrentQuality: true,
-        });
+      const player = (playerRef.current = videojs(
+        videoElement,
+        {
+          autoplay: false,
+          controls: true,
+          responsive: true,
+          fluid: true,
+          poster: poster,
+          sources: [
+            {
+              src: src,
+              type: getSourceType(src),
+            },
+          ],
+        },
+        () => {
+          // Add manual quality selector button
+          player.hlsQualitySelector({
+            displayCurrentQuality: true,
+          });
 
-        if (onReady) onReady(player);
-      }));
+          player.on("loadedmetadata", () => {
+            const qualityLevels = player.qualityLevels();
+            console.log("Detected qualities:", qualityLevels.length);
+          });
+
+          if (onReady) onReady(player);
+        },
+      ));
     } else {
       // Update existing player when src or poster changes
       const player = playerRef.current;
@@ -58,7 +69,10 @@ const VideoPlayer = ({ src, poster, onReady }) => {
 
   return (
     <div data-vjs-player className="w-full h-full">
-      <video ref={videoRef} className="video-js vjs-big-play-centered vjs-theme-city" />
+      <video
+        ref={videoRef}
+        className="video-js vjs-big-play-centered vjs-theme-city"
+      />
     </div>
   );
 };

@@ -5,7 +5,9 @@ import VideoPlayer from "../components/VideoPlayer";
 import { useSelector } from "react-redux";
 import { placeholderDataUrl } from "../utils/placeholder";
 import RecommendedCard from "../components/RecommendedCard";
+import AskAIModal from "../components/AskAIModal";
 import { SlLike } from "react-icons/sl";
+import { BiMessageAltDetail } from "react-icons/bi";
 
 const HeartPop = ({ show }) => (
   <span
@@ -55,7 +57,6 @@ export default function VideoDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   const [playerError, setPlayerError] = useState(null);
 
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -68,6 +69,7 @@ export default function VideoDetail() {
   const [hasRecordedView, setHasRecordedView] = useState(false);
   const [liked, setLiked] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [askAIModalOpen, setAskAIModalOpen] = useState(false);
 
   const isOwner = user?._id === video?.owner?._id;
 
@@ -322,6 +324,13 @@ export default function VideoDetail() {
                   Share
                   <CopiedBadge show={copied} />
                 </button>
+                <button
+                  onClick={() => setAskAIModalOpen(true)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full glass-effect hover:border-cyan-500/50 hover:text-cyan-400 transition-all border border-transparent"
+                  title="Ask AI about this video"
+                >
+                  <BiMessageAltDetail /> Ask AI
+                </button>
               </div>
 
               <div className="flex items-center justify-between glass-effect rounded-xl p-4 border border-gray-700/50 shadow-lg">
@@ -395,6 +404,12 @@ export default function VideoDetail() {
           </aside>
         </div>
       </div>
+      <AskAIModal
+        isOpen={askAIModalOpen}
+        onClose={() => setAskAIModalOpen(false)}
+        videoId={videoId}
+        videoTitle={video?.title || "Video"}
+      />
     </div>
   );
 }

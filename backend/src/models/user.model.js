@@ -48,12 +48,24 @@ const userSchema = new Schema(
         },
       },
     ],
+    // New: AI Quota tracking
+    aiQuotaLimit: {
+      type: Number,
+      default: 10, // 10 requests per day
+    },
+    aiQuotaUsed: {
+      type: Number,
+      default: 0,
+    },
+    aiQuotaResetAt: {
+      type: Date,
+      default: () => new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
+    },
   },
   {
     timestamps: true,
   }
 );
-
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
@@ -61,11 +73,9 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
 
 userSchema.methods.GetAccessToken = function () {
   return jwt.sign(
@@ -81,7 +91,6 @@ userSchema.methods.GetAccessToken = function () {
     }
   );
 };
-
 
 userSchema.methods.GetRefreshToken = function () {
   return jwt.sign(

@@ -43,6 +43,11 @@ const videoSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    transcription: {
+      type: String,
+      default: null,
+      sparse: true,
+    },
   },
   {
     timestamps: true,

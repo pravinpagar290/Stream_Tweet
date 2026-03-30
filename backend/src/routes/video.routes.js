@@ -7,8 +7,14 @@ import {
   videoDelete,
   likeVideo,
 } from "../controllers/video.controllers.js";
+import {
+  askAboutVideo,
+  generateTranscription,
+  getUserQuota,
+} from "../controllers/ai.controllers.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
+import { checkAIQuota } from "../middlewares/quota.middleware.js";
 
 const router = Router();
 
@@ -35,5 +41,9 @@ router.patch(
 router.delete("/:videoId", verifyToken, videoDelete);
 
 router.post("/:videoId/like", verifyToken, likeVideo);
+
+router.post("/:videoId/ask-ai", verifyToken, checkAIQuota, askAboutVideo);
+router.post("/:videoId/transcription", verifyToken, generateTranscription);
+router.get("/quota/info", verifyToken, getUserQuota);
 
 export default router;
