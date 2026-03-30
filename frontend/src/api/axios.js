@@ -4,7 +4,7 @@ const backend =
   import.meta.env.VITE_BACKEND_URL ||
   (import.meta.env.MODE === "development"
     ? "http://localhost:8000"
-    : "");
+    : "https://streamtweet.onrender.com");
 const baseURL = backend.replace(/\/\/+$/, "") + "/api/v1";
 
 const api = axios.create({
