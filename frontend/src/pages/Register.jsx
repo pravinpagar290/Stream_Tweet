@@ -64,114 +64,109 @@ function Register() {
     }
   };
 
+  const inputStyle = {
+    backgroundColor: "var(--bg-secondary)",
+    border: "1px solid var(--border-primary)",
+    color: "var(--text-primary)",
+  };
+
   return (
-    <div className="min-h-screen text-white flex justify-center items-center p-4 animate-fade-in">
-      <div className="max-w-md w-full glass-effect p-8 rounded-2xl shadow-2xl border border-gray-700 animate-scale-in overflow-hidden group">
-        <h2 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r bg-white bg-clip-text text-transparent">
+    <div className="min-h-[80vh] flex justify-center items-center p-4 animate-fade-in">
+      <div
+        className="max-w-md w-full p-8 rounded-xl animate-slideUp"
+        style={{
+          backgroundColor: "var(--bg-card)",
+          border: "1px solid var(--border-primary)",
+        }}
+      >
+        <h2
+          className="text-3xl font-bold mb-6 text-center"
+          style={{ color: "var(--text-primary)" }}
+        >
           Create Account
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Username <span className="text-red-500">*</span>
+            <label htmlFor="username" className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+              Username <span style={{ color: "var(--danger)" }}>*</span>
             </label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:border-cyan-500/50"
+              className="block w-full rounded-lg py-2.5 px-3.5 text-sm focus:outline-none transition-colors"
+              style={inputStyle}
               required
               disabled={loading}
             />
           </div>
           <div>
-            <label
-              htmlFor="fullName"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Full Name <span className="text-red-500">*</span>
+            <label htmlFor="fullName" className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+              Full Name <span style={{ color: "var(--danger)" }}>*</span>
             </label>
             <input
               type="text"
               id="fullName"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:border-cyan-500/50"
+              className="block w-full rounded-lg py-2.5 px-3.5 text-sm focus:outline-none transition-colors"
+              style={inputStyle}
               required
               disabled={loading}
             />
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Email <span className="text-red-500">*</span>
+            <label htmlFor="email" className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+              Email <span style={{ color: "var(--danger)" }}>*</span>
             </label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:border-cyan-500/50"
+              className="block w-full rounded-lg py-2.5 px-3.5 text-sm focus:outline-none transition-colors"
+              style={inputStyle}
               required
               disabled={loading}
             />
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Password <span className="text-red-500">*</span>
+            <label htmlFor="password" className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+              Password <span style={{ color: "var(--danger)" }}>*</span>
             </label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full glass-effect border border-gray-600 rounded-lg shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:border-cyan-500/50"
+              className="block w-full rounded-lg py-2.5 px-3.5 text-sm focus:outline-none transition-colors"
+              style={inputStyle}
               required
               disabled={loading}
             />
           </div>
 
           <div>
-            <label
-              htmlFor="avatar"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Avatar <span className="text-red-500">*</span>
+            <label htmlFor="avatar" className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+              Avatar <span style={{ color: "var(--danger)" }}>*</span>
             </label>
             <input
               type="file"
               id="avatar"
               accept="image/*"
               onChange={(e) => setAvatar(e.target.files[0])}
-              className="mt-1 block w-full text-sm text-gray-400
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-lg file:border-0
-                file:text-sm file:font-semibold
-                file:bg-gradient-to-r file:from-cyan-600 file:to-blue-600 file:text-white
-                hover:file:from-cyan-500 hover:file:to-blue-500
-                file:transition-all file:duration-300
-                disabled:opacity-50"
+              className="block w-full text-sm file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:text-white file:transition-colors disabled:opacity-50"
+              style={{ color: "var(--text-secondary)" }}
               disabled={loading}
             />
           </div>
 
           <div>
-            <label
-              htmlFor="coverImage"
-              className="block text-sm font-medium text-gray-300"
-            >
+            <label htmlFor="coverImage" className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
               Cover Image (Optional)
             </label>
             <input
@@ -179,33 +174,30 @@ function Register() {
               id="coverImage"
               accept="image/*"
               onChange={(e) => setCoverImage(e.target.files[0])}
-              className="mt-1 block w-full text-sm text-gray-400
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-lg file:border-0
-                file:text-sm file:font-semibold
-                file:bg-gray-700 file:text-white
-                hover:file:bg-gray-600
-                file:transition-all file:duration-300
-                disabled:opacity-50"
+              className="block w-full text-sm file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:text-white file:transition-colors disabled:opacity-50"
+              style={{ color: "var(--text-secondary)" }}
               disabled={loading}
             />
           </div>
 
           {error && (
-            <div className="text-red-400 text-sm text-center bg-red-900/30 p-3 rounded-lg border border-red-500/30 animate-scale-in">
+            <div
+              className="text-sm text-center p-3 rounded-lg animate-scale-in"
+              style={{
+                backgroundColor: "rgba(239, 68, 68, 0.1)",
+                border: "1px solid rgba(239, 68, 68, 0.3)",
+                color: "var(--danger)",
+              }}
+            >
               {error}
             </div>
           )}
 
-          <div className="pt-2">
+          <div className="pt-1">
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-sm font-medium text-white 
-                       bg-gradient-to-r from-cyan-600 to-blue-600 
-                       hover:from-cyan-500 hover:to-blue-500 
-                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 
-                       disabled:opacity-50 disabled:cursor-not-allowed
-                       transition-all duration-300 hover:shadow-cyan-500/50 hover:scale-105"
+              className="w-full flex justify-center py-2.5 px-4 rounded-lg text-sm font-medium text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              style={{ backgroundColor: "var(--accent)" }}
               disabled={loading}
             >
               {loading ? (
@@ -216,19 +208,8 @@ function Register() {
                     fill="none"
                     viewBox="0 0 24 24"
                   >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
                   Registering...
                 </div>
@@ -239,30 +220,12 @@ function Register() {
           </div>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-400">
+        <p className="mt-6 text-center text-sm" style={{ color: "var(--text-tertiary)" }}>
           Already have an account?{" "}
-          <Link
-            to="/login"
-            className="font-medium text-cyan-500 hover:text-cyan-400 transition-colors duration-300"
-          >
+          <Link to="/login" className="font-medium transition-colors" style={{ color: "var(--accent)" }}>
             Log in
           </Link>
         </p>
-
-        {/* RGB Animated Underline - Expands from Center */}
-        <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 group-hover:w-full 
-                     transition-all duration-700 ease-out origin-center"
-          style={{
-            background:
-              "linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)",
-            backgroundSize: "200% 100%",
-            animation: "rgb-gradient 3s linear infinite",
-            boxShadow:
-              "0 0 10px rgba(255, 0, 255, 0.9), 0 0 20px rgba(0, 255, 255, 0.7), 0 0 30px rgba(138, 43, 226, 0.6)",
-            filter: "brightness(1.3)",
-          }}
-        />
       </div>
     </div>
   );

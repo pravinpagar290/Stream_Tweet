@@ -36,47 +36,37 @@ function WatchHistory() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin"></div>
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full animate-spin" style={{ border: "3px solid var(--border-primary)", borderTopColor: "var(--accent)" }} />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-red-400 p-4">
-        <p className="text-xl mb-4">{error}</p>
-        <Link
-          to="/"
-          className="text-cyan-400 hover:text-cyan-300 transition-colors"
-        >
-          Go Home
-        </Link>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-4">
+        <p className="text-xl mb-4" style={{ color: "var(--danger)" }}>{error}</p>
+        <Link to="/" className="transition-colors" style={{ color: "var(--accent)" }}>Go Home</Link>
       </div>
     );
   }
 
   if (history.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-gray-400 p-4">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-4" style={{ color: "var(--text-tertiary)" }}>
         <p className="text-xl mb-4">Your watch history is empty.</p>
-        <Link
-          to="/"
-          className="text-cyan-400 hover:text-cyan-300 transition-colors"
-        >
-          Go explore videos
-        </Link>
+        <Link to="/" className="transition-colors" style={{ color: "var(--accent)" }}>Go explore videos</Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen text-white p-4 md:p-8 animate-fade-in">
+    <div className="p-4 md:p-8 animate-fade-in">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 border-b border-gray-700 pb-4 bg-gradient-to-r from-white to-gray-700 bg-clip-text text-transparent inline-block">
+        <h1 className="text-2xl font-bold mb-6 pb-4" style={{ color: "var(--text-primary)", borderBottom: "1px solid var(--border-primary)" }}>
           Watch History
         </h1>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {history.map((video) => (
             <HistoryVideoCard
               key={`${video._id}-${video.watchedAt}`}
@@ -99,30 +89,30 @@ function HistoryVideoCard({ video }) {
   return (
     <Link
       to={`/video/${video._id}`}
-      className="flex flex-col sm:flex-row items-start gap-4 p-4 rounded-xl glass-effect border border-transparent hover:border-cyan-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 group animate-slideUp"
+      className="flex flex-col sm:flex-row items-start gap-4 p-3.5 rounded-xl transition-colors group animate-slideUp"
+      style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border-primary)" }}
     >
-      <div className="relative w-full sm:w-48 h-28 flex-shrink-0 overflow-hidden rounded-lg bg-gray-800">
+      <div className="relative w-full sm:w-44 h-26 flex-shrink-0 overflow-hidden rounded-lg" style={{ backgroundColor: "var(--bg-tertiary)" }}>
         <img
           src={video.thumbnail || placeholderDataUrl(160, 90, "No Image")}
           alt={video.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
-        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
       </div>
 
       <div className="flex-grow min-w-0">
-        <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors line-clamp-1">
+        <h3 className="font-medium line-clamp-1" style={{ color: "var(--text-primary)" }}>
           {video.title || "Untitled Video"}
         </h3>
-        <p className="text-sm text-gray-400 mt-1 font-medium">
+        <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
           {video.owner?.username || "Unknown Uploader"}
         </p>
-        <p className="text-sm text-gray-500 mt-2 line-clamp-2">
+        <p className="text-sm mt-1.5 line-clamp-2" style={{ color: "var(--text-tertiary)" }}>
           {video.description || "No description."}
         </p>
-        <div className="flex items-center gap-3 mt-3 text-xs text-gray-500">
+        <div className="flex items-center gap-3 mt-2 text-xs" style={{ color: "var(--text-tertiary)" }}>
           <span>{video.views || 0} views</span>
-          <span>•</span>
+          <span>·</span>
           <span>Watched: {watchedDate}</span>
         </div>
       </div>

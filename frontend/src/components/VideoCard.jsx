@@ -16,54 +16,43 @@ const VideoCard = ({ video }) => {
   return (
     <Link
       to={`/video/${video._id}`}
-      className="video-card group relative block rounded-xl overflow-hidden shadow-lg
-                 glass-effect border border-gray-200 dark:border-gray-800
-                 transition-all duration-500 
-                 animate-scale-in no-underline
-                 hover:scale-105 hover:z-10"
+      className="video-card group block rounded-xl overflow-hidden animate-scale-in no-underline transition-all duration-300 hover:translate-y-[-2px]"
+      style={{
+        backgroundColor: "var(--bg-card)",
+        border: "1px solid var(--border-primary)",
+        boxShadow: "var(--shadow-sm)",
+        color: "var(--text-primary)",
+      }}
     >
-      <div className="relative w-full pt-[56.25%] bg-gray-900 overflow-hidden">
+      <div className="relative w-full pt-[56.25%] overflow-hidden" style={{ backgroundColor: "var(--bg-tertiary)" }}>
         {!thumbLoaded && (
-          <div className="absolute inset-0 bg-gray-700 animate-shimmer" />
+          <div className="absolute inset-0 animate-shimmer" />
         )}
         <img
           src={thumb}
           alt={title}
           onLoad={() => setThumbLoaded(true)}
-          className={`absolute inset-0 w-full h-full object-cover
-                     transition-all duration-500
-                     ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-[1.03] ${thumbLoaded ? "opacity-100" : "opacity-0"}`}
         />
       </div>
 
-      <div className="p-4">
+      <div className="p-3.5">
         <h3
-          className="font-semibold text-base uppercase line-clamp-2 mb-2 transition-colors font-light duration-300"
+          className="font-medium text-sm line-clamp-2 mb-1.5"
           title={title}
+          style={{ color: "var(--text-primary)" }}
         >
           {title}
         </h3>
 
-        <p className="text-gray-600 dark:text-gray-400 text-sm mb-1 transition-colors">
+        <p className="text-xs mb-0.5" style={{ color: "var(--text-secondary)" }}>
           {author}
         </p>
 
-        <p className="text-gray-500 text-sm transition-colors">{views} views</p>
+        <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+          {views} views
+        </p>
       </div>
-      {/* Animated RGB Border Bottom Line - Expands from Center with Beat Effect */}
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[4px] w-0 group-hover:w-full 
-                   transition-all duration-700 ease-out origin-center"
-        style={{
-          background:
-            "linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)",
-          backgroundSize: "200% 100%",
-          animation: "rgb-gradient 3s linear infinite",
-          boxShadow:
-            "0 0 15px rgba(255, 0, 255, 1), 0 0 30px rgba(255, 0, 255, 0.9), 0 0 50px rgba(0, 255, 255, 0.8), 0 0 70px rgba(255, 0, 0, 0.7), 0 0 100px rgba(0, 255, 0, 0.6), 0 -150px 200px rgba(138, 43, 226, 0.4), 0 -100px 150px rgba(255, 0, 255, 0.3), 0 -50px 100px rgba(0, 255, 255, 0.5)",
-          filter: "brightness(1.9)",
-        }}
-      />
     </Link>
   );
 };

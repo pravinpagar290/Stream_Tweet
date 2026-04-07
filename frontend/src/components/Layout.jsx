@@ -6,10 +6,16 @@ import UploadProgress from "./UploadProgress";
 
 function Layout() {
   return (
-    <div className="flex flex-col min-h-screen text-white">
+    <div
+      className="flex flex-col min-h-screen"
+      style={{
+        backgroundColor: "var(--bg-primary)",
+        color: "var(--text-primary)",
+      }}
+    >
       <Header />
 
-      <main className="flex-grow container mx-auto p-4">
+      <main className="flex-grow container mx-auto px-4 py-6">
         <Outlet />
       </main>
 
