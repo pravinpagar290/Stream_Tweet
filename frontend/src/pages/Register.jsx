@@ -73,7 +73,7 @@ function Register() {
   return (
     <div className="min-h-[80vh] flex justify-center items-center p-4 animate-fade-in">
       <div
-        className="max-w-md w-full p-8 rounded-xl animate-scale-in"
+        className="max-w-md w-full p-8 rounded-xl animate-slideUp"
         style={{
           backgroundColor: "var(--bg-card)",
           border: "1px solid var(--border-primary)",

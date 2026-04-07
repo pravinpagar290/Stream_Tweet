@@ -55,7 +55,7 @@ function Login() {
         </h2>
 
         <div
-          className="py-8 px-4 sm:rounded-xl sm:px-8"
+          className="py-8 px-4 sm:rounded-xl sm:px-8 animate-slideUp"
           style={{
             backgroundColor: "var(--bg-card)",
             border: "1px solid var(--border-primary)",

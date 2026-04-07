@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 /* ============================================
@@ -69,6 +69,7 @@
 
 body {
   font-family: var(--font-sans);
+  font-weight: 600;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -100,20 +101,54 @@ body {
   100% { background-position: 600px 0; }
 }
 
+@keyframes subtlePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.92); }
+  60% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-color: var(--border-primary); }
+  50% { border-color: var(--accent); }
+}
+
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .animate-slide-in-left {
-  animation: fadeIn 0.3s ease-out;
+  animation: slideInLeft 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .animate-slide-in-right {
-  animation: fadeIn 0.3s ease-out;
+  animation: slideInRight 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.25s ease-out;
+  animation: scaleIn 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.animate-pop-in {
+  animation: popIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.animate-subtle-pulse {
+  animation: subtlePulse 2s ease-in-out infinite;
 }
 
 .animate-shimmer {
@@ -128,7 +163,11 @@ body {
 }
 
 .animate-slideUp {
-  animation: slideUp 0.3s ease-out forwards;
+  animation: slideUp 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-border-glow {
+  animation: borderGlow 2s ease-in-out infinite;
 }
 
 /* ============================================
@@ -136,17 +175,25 @@ body {
    ============================================ */
 
 .video-card-container:has(.video-card:hover) .video-card {
-  opacity: 0.6;
-  transition: all 0.3s ease;
+  opacity: 0.55;
+  filter: blur(1px);
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .video-card-container:has(.video-card:hover) .video-card:hover {
   opacity: 1;
+  filter: blur(0);
+  transform: translateY(-2px);
   z-index: 10;
 }
 
 .video-card {
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.video-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 /* ============================================
@@ -194,7 +241,27 @@ body {
    ============================================ */
 
 * {
-  transition-property: background-color, border-color, color, box-shadow;
-  transition-timing-function: ease;
+  transition-property: background-color, border-color, color, box-shadow, opacity, transform;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transition-duration: 150ms;
+}
+
+/* ============================================
+   MICRO-INTERACTIONS
+   ============================================ */
+
+a:hover,
+button:hover {
+  transform: translateY(-1px);
+}
+
+a:active,
+button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px var(--accent-subtle);
 }
