@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getCurrentUser } from "../store/Slices/authSlice";
 import api from "../api/axios";
-import { FiX, FiUpload, FiImage } from "react-icons/fi";
 
 const AvatarImageChange = ({ isOpen, onClose, currentAvatar }) => {
   const [preview, setPreview] = useState(currentAvatar);
@@ -52,63 +51,53 @@ const AvatarImageChange = ({ isOpen, onClose, currentAvatar }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-md shadow-2xl relative overflow-hidden animate-scale-in">
-        <div className="flex items-center justify-between p-6 border-b border-gray-800">
-          <h2 className="text-xl font-bold text-white">Change Avatar</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-full"
-          >
-            <FiX size={24} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 animate-fade-in">
+      <div
+        className="rounded-xl w-full max-w-md relative overflow-hidden animate-scale-in"
+        style={{ backgroundColor: "var(--bg-primary)", border: "1px solid var(--border-primary)" }}
+      >
+        <div className="flex items-center justify-between p-5" style={{ borderBottom: "1px solid var(--border-primary)" }}>
+          <h2 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>Change Avatar</h2>
+          <button onClick={onClose} className="p-1.5 rounded-lg transition-colors" style={{ color: "var(--text-secondary)" }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
           </button>
         </div>
 
-        <div className="p-8 flex flex-col items-center gap-6">
-          <div className="relative group w-40 h-40">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+        <div className="p-6 flex flex-col items-center gap-5">
+          <div className="relative group w-36 h-36">
             <img
               src={preview}
               alt="Avatar Preview"
-              className="w-full h-full rounded-full object-cover border-4 border-gray-800 relative z-10 bg-gray-800"
+              className="w-full h-full rounded-full object-cover"
+              style={{ border: "3px solid var(--border-primary)", backgroundColor: "var(--bg-tertiary)" }}
             />
             <label
               htmlFor="avatar-upload"
-              className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all rounded-full cursor-pointer backdrop-blur-sm"
+              className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all rounded-full cursor-pointer"
             >
-              <FiImage className="text-white w-8 h-8" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             </label>
-            <input
-              id="avatar-upload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange}
-            />
+            <input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
           </div>
 
           <div className="text-center">
-            <p className="text-gray-400 text-sm mb-2">
-              Click the image to select a new file
-            </p>
-            {error && <p className="text-red-400 text-sm">{error}</p>}
+            <p className="text-sm mb-2" style={{ color: "var(--text-tertiary)" }}>Click the image to select a new file</p>
+            {error && <p className="text-sm" style={{ color: "var(--danger)" }}>{error}</p>}
           </div>
 
-          <div className="flex gap-4 w-full">
+          <div className="flex gap-3 w-full">
             <button
               onClick={onClose}
-              className="flex-1 px-4 py-2 rounded-lg font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+              className="flex-1 px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+              style={{ color: "var(--text-secondary)" }}
             >
               Cancel
             </button>
             <button
               onClick={handleUpload}
               disabled={!file || uploading}
-              className={`flex-1 px-4 py-2 rounded-lg font-medium text-white flex items-center justify-center gap-2 transition-all ${
-                !file || uploading
-                  ? "bg-gray-800 cursor-not-allowed text-gray-500"
-                  : "bg-blue-600 hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/20"
-              }`}
+              className="flex-1 px-4 py-2 rounded-lg font-medium text-sm text-white flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ backgroundColor: !file || uploading ? "var(--bg-tertiary)" : "var(--accent)", color: !file || uploading ? "var(--text-tertiary)" : "#fff" }}
             >
               {uploading ? (
                 <>
@@ -116,10 +105,7 @@ const AvatarImageChange = ({ isOpen, onClose, currentAvatar }) => {
                   Updating...
                 </>
               ) : (
-                <>
-                  <FiUpload />
-                  Update Avatar
-                </>
+                "Update Avatar"
               )}
             </button>
           </div>

@@ -13,10 +13,17 @@ const RecommendedCard = ({ video, delay }) => {
   return (
     <Link
       to={`/video/${video._id}`}
-      className="relative flex gap-3 p-2 rounded-lg glass-effect hover:bg-white/5 border border-transparent hover:border-cyan-500/30 transition-all duration-300 opacity-0 animate-slideUp group overflow-hidden"
-      style={{ animationDelay: `${delay}ms`, animationFillMode: "forwards" }}
+      className="flex gap-3 p-2 rounded-lg transition-colors opacity-0 animate-slideUp group"
+      style={{
+        animationDelay: `${delay}ms`,
+        animationFillMode: "forwards",
+        color: "var(--text-primary)",
+      }}
     >
-      <div className="relative w-40 h-24 rounded-lg overflow-hidden shrink-0 bg-gray-900 shadow-md">
+      <div
+        className="relative w-40 h-24 rounded-lg overflow-hidden shrink-0"
+        style={{ backgroundColor: "var(--bg-tertiary)" }}
+      >
         <video
           src={video.videoFile}
           muted
@@ -34,26 +41,19 @@ const RecommendedCard = ({ video, delay }) => {
       </div>
 
       <div className="flex-1 min-w-0 flex flex-col justify-center">
-        <h3 className="text-sm font-semibold line-clamp-2 group-hover:text-cyan-400 transition-colors">
+        <h3
+          className="text-sm font-medium line-clamp-2 transition-colors"
+          style={{ color: "var(--text-primary)" }}
+        >
           {title}
         </h3>
-        <p className="text-xs text-gray-400 mt-1">{uploader}</p>
-        <p className="text-xs text-gray-500">{views} views</p>
+        <p className="text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
+          {uploader}
+        </p>
+        <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+          {views} views
+        </p>
       </div>
-
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-0 group-hover:w-full 
-                   transition-all duration-500 ease-out origin-center"
-        style={{
-          background:
-            "linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)",
-          backgroundSize: "200% 100%",
-          animation: "rgb-gradient 3s linear infinite",
-          boxShadow:
-            "0 0 6px rgba(255, 0, 255, 0.7), 0 0 12px rgba(0, 255, 255, 0.5), 0 0 20px rgba(138, 43, 226, 0.4)",
-          filter: "brightness(1.2)",
-        }}
-      />
     </Link>
   );
 };

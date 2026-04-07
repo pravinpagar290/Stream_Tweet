@@ -27,7 +27,7 @@ export default function Home() {
 
   if (loading)
     return (
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto py-4">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from({ length: 12 }).map((_, i) => (
             <SkeletonCard key={i} />
@@ -38,20 +38,20 @@ export default function Home() {
 
   if (error)
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-400">
+      <div className="min-h-[60vh] flex items-center justify-center" style={{ color: "var(--danger)" }}>
         {error}
       </div>
     );
 
   if (!videos.length)
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-400">
+      <div className="min-h-[60vh] flex items-center justify-center" style={{ color: "var(--text-tertiary)" }}>
         No videos yet.
       </div>
     );
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto py-4">
       <div className="video-card-container grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
         {videos.map((v) => (
           <VideoCard key={v._id} video={v} />

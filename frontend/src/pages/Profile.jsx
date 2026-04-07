@@ -125,36 +125,26 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin"></div>
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full animate-spin" style={{ border: "3px solid var(--border-primary)", borderTopColor: "var(--accent)" }} />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-red-400 p-4">
-        <p className="text-xl mb-4">{error}</p>
-        <Link
-          to="/"
-          className="text-cyan-400 hover:text-cyan-300 transition-colors"
-        >
-          Go Home
-        </Link>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-4">
+        <p className="text-xl mb-4" style={{ color: "var(--danger)" }}>{error}</p>
+        <Link to="/" className="transition-colors" style={{ color: "var(--accent)" }}>Go Home</Link>
       </div>
     );
   }
 
   if (!channel) {
     return (
-      <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-gray-400 p-4">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-4" style={{ color: "var(--text-tertiary)" }}>
         <p className="text-xl mb-4">Channel not found.</p>
-        <Link
-          to="/"
-          className="text-cyan-400 hover:text-cyan-300 transition-colors"
-        >
-          Go Home
-        </Link>
+        <Link to="/" className="transition-colors" style={{ color: "var(--accent)" }}>Go Home</Link>
       </div>
     );
   }
@@ -162,65 +152,52 @@ export default function Profile() {
   const isOwner = currentUser?._id === channel._id;
 
   return (
-    <div className="min-h-screen text-white p-4 md:p-8 animate-fade-in">
-      {/* Cover Image */}
-      <div className="h-48 md:h-64 bg-gray-800 overflow-hidden relative">
+    <div className="p-4 md:p-8 animate-fade-in">
+      <div className="h-48 md:h-64 overflow-hidden relative rounded-xl" style={{ backgroundColor: "var(--bg-tertiary)" }}>
         {channel.coverImage ? (
-          <img
-            src={channel.coverImage}
-            alt="Cover"
-            className="w-full h-full object-cover"
-          />
+          <img src={channel.coverImage} alt="Cover" className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full bg-gradient-to-r from-cyan-900 to-blue-900"></div>
+          <div className="w-full h-full" style={{ backgroundColor: "var(--bg-tertiary)" }} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/90"></div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 md:px-8 -mt-20 relative z-10">
-        <div className="flex flex-col md:flex-row items-center md:items-end gap-6 pb-6 border-b border-gray-800">
+      <div className="max-w-6xl mx-auto px-4 md:px-8 -mt-16 relative z-10">
+        <div className="flex flex-col md:flex-row items-center md:items-end gap-6 pb-6" style={{ borderBottom: "1px solid var(--border-primary)" }}>
           <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-700 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
             {isOwner ? (
               <button
                 onClick={() => setIsAvatarModalOpen(true)}
-                className="relative z-10 block rounded-full transition-transform hover:scale-105 focus:outline-none"
+                className="block rounded-full transition-transform hover:scale-105 focus:outline-none"
               >
                 <img
-                  src={
-                    channel.avatar ||
-                    placeholderDataUrl(150, 150, channel.username[0])
-                  }
+                  src={channel.avatar || placeholderDataUrl(150, 150, channel.username[0])}
                   alt={channel.username}
-                  className="w-32 h-32 rounded-full object-cover border-4 border-gray-900 bg-gray-800"
+                  className="w-28 h-28 rounded-full object-cover"
+                  style={{ border: "4px solid var(--bg-primary)", backgroundColor: "var(--bg-tertiary)" }}
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 hover:opacity-100 transition-opacity">
-                  <span className="text-white text-xs font-semibold">
-                    Change
-                  </span>
+                  <span className="text-white text-xs font-semibold">Change</span>
                 </div>
               </button>
             ) : (
               <Link to={"/"}>
                 <img
-                  src={
-                    channel.avatar ||
-                    placeholderDataUrl(150, 150, channel.username[0])
-                  }
+                  src={channel.avatar || placeholderDataUrl(150, 150, channel.username[0])}
                   alt={channel.username}
-                  className="w-32 h-32 rounded-full object-cover border-4 border-gray-900 relative z-10 bg-gray-800"
+                  className="w-28 h-28 rounded-full object-cover"
+                  style={{ border: "4px solid var(--bg-primary)", backgroundColor: "var(--bg-tertiary)" }}
                 />
               </Link>
             )}
           </div>
 
           <div className="flex-1 text-center md:text-left">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-1">
+            <h1 className="text-2xl font-bold mb-0.5" style={{ color: "var(--text-primary)" }}>
               {channel.fullName || channel.username}
             </h1>
-            <p className="text-gray-400 font-medium">@{channel.username}</p>
-            <p className="text-gray-500 text-sm mt-1">
-              {subscriberCount} subscribers • {videos.length} videos
+            <p className="font-medium text-sm" style={{ color: "var(--text-secondary)" }}>@{channel.username}</p>
+            <p className="text-sm mt-1" style={{ color: "var(--text-tertiary)" }}>
+              {subscriberCount} subscribers · {videos.length} videos
             </p>
           </div>
 
@@ -229,11 +206,12 @@ export default function Profile() {
               <button
                 onClick={handleToggleSubscribe}
                 disabled={subLoading}
-                className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg ${
+                className="px-5 py-1.5 rounded-full font-medium text-sm transition-colors"
+                style={
                   isSubscribed
-                    ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                    : "bg-red-600 text-white hover:bg-red-700 hover:shadow-red-600/30 hover:scale-105"
-                }`}
+                    ? { backgroundColor: "var(--bg-tertiary)", color: "var(--text-secondary)" }
+                    : { backgroundColor: "var(--accent)", color: "#fff" }
+                }
               >
                 {subLoading ? "..." : isSubscribed ? "Subscribed" : "Subscribe"}
               </button>
@@ -241,7 +219,8 @@ export default function Profile() {
             {isOwner && (
               <Link
                 to="/settings"
-                className="px-6 py-2 rounded-full font-semibold bg-gray-800 text-white hover:bg-gray-700 border border-gray-700 hover:border-gray-600 transition-all"
+                className="px-5 py-1.5 rounded-full font-medium text-sm transition-colors"
+                style={{ backgroundColor: "var(--bg-tertiary)", color: "var(--text-primary)", border: "1px solid var(--border-primary)" }}
               >
                 Customize Channel
               </Link>
@@ -250,41 +229,37 @@ export default function Profile() {
         </div>
 
         <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <span className="w-1 h-8 bg-gradient-to-b from-white to-gray-700 rounded-full"></span>
-            Videos
-          </h2>
+          <h2 className="text-xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>Videos</h2>
 
           {videos.length === 0 ? (
-            <div className="text-center py-20 text-gray-500 glass-effect rounded-xl border border-gray-800">
-              <p className="text-lg">No videos uploaded yet.</p>
+            <div
+              className="text-center py-16 rounded-xl"
+              style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-primary)", color: "var(--text-tertiary)" }}
+            >
+              <p>No videos uploaded yet.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {videos.map((v) => (
                 <Link
                   key={v._id}
                   to={`/video/${v._id}`}
-                  className="group block rounded-xl overflow-hidden glass-effect border border-transparent hover:border-cyan-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10"
+                  className="group block rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                  style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border-primary)" }}
                 >
-                  <div className="aspect-video bg-gray-800 relative overflow-hidden">
+                  <div className="aspect-video relative overflow-hidden" style={{ backgroundColor: "var(--bg-tertiary)" }}>
                     <img
-                      src={
-                        v.thumbnail ||
-                        placeholderDataUrl(320, 180, "No Thumbnail")
-                      }
+                      src={v.thumbnail || placeholderDataUrl(320, 180, "No Thumbnail")}
                       alt={v.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                     />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-bold text-gray-100 line-clamp-2 group-hover:text-cyan-400 transition-colors mb-1">
+                  <div className="p-3.5">
+                    <h3 className="font-medium text-sm line-clamp-2 mb-1" style={{ color: "var(--text-primary)" }}>
                       {v.title}
                     </h3>
-                    <p className="text-sm text-gray-400">
-                      {v.views || 0} views •{" "}
-                      {new Date(v.createdAt).toLocaleDateString()}
+                    <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                      {v.views || 0} views · {new Date(v.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                 </Link>
@@ -298,9 +273,7 @@ export default function Profile() {
         <AvatarImageChange
           isOpen={isAvatarModalOpen}
           onClose={() => setIsAvatarModalOpen(false)}
-          currentAvatar={
-            channel.avatar || placeholderDataUrl(150, 150, channel.username[0])
-          }
+          currentAvatar={channel.avatar || placeholderDataUrl(150, 150, channel.username[0])}
         />
       )}
     </div>

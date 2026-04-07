@@ -31,15 +31,15 @@ const CopiedBadge = ({ show }) => (
 );
 
 const PlayerSkeleton = () => (
-  <div className="w-full aspect-video bg-gray-800 rounded-xl overflow-hidden animate-pulse" />
+  <div className="w-full aspect-video rounded-xl overflow-hidden animate-pulse" style={{ backgroundColor: "var(--bg-tertiary)" }} />
 );
 
 const RecSkeleton = () => (
   <div className="flex gap-3 animate-pulse">
-    <div className="w-40 h-24 bg-gray-800 rounded-lg shrink-0" />
+    <div className="w-40 h-24 rounded-lg shrink-0" style={{ backgroundColor: "var(--bg-tertiary)" }} />
     <div className="flex-1 space-y-2">
-      <div className="h-4 bg-gray-800 rounded" />
-      <div className="h-3 bg-gray-800 rounded w-2/3" />
+      <div className="h-4 rounded" style={{ backgroundColor: "var(--bg-tertiary)" }} />
+      <div className="h-3 rounded w-2/3" style={{ backgroundColor: "var(--bg-tertiary)" }} />
     </div>
   </div>
 );
@@ -230,12 +230,12 @@ export default function VideoDetail() {
 
   if (loading)
     return (
-      <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8">
+      <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
           <div className="flex-grow space-y-4">
             <PlayerSkeleton />
-            <div className="h-6 bg-gray-800 rounded w-2/3 animate-pulse" />
-            <div className="h-4 bg-gray-800 rounded w-1/3 animate-pulse" />
+            <div className="h-6 rounded w-2/3 animate-pulse" style={{ backgroundColor: "var(--bg-tertiary)" }} />
+            <div className="h-4 rounded w-1/3 animate-pulse" style={{ backgroundColor: "var(--bg-tertiary)" }} />
           </div>
           <aside className="w-full lg:w-96 space-y-3">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -248,13 +248,10 @@ export default function VideoDetail() {
 
   if (error)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-red-400">
+      <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-xl mb-4">{error}</p>
-          <Link
-            to="/"
-            className="text-cyan-400 hover:text-cyan-300 transition-colors"
-          >
+          <p className="text-xl mb-4" style={{ color: "var(--danger)" }}>{error}</p>
+          <Link to="/" className="transition-colors" style={{ color: "var(--accent)" }}>
             Go home
           </Link>
         </div>
@@ -263,46 +260,55 @@ export default function VideoDetail() {
 
   if (!video || !video.videoFile)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+      <div className="min-h-[60vh] flex items-center justify-center" style={{ color: "var(--text-tertiary)" }}>
         Video unavailable
       </div>
     );
 
+  const btnStyle = {
+    backgroundColor: "var(--bg-tertiary)",
+    color: "var(--text-secondary)",
+    border: "1px solid var(--border-primary)",
+  };
+
   return (
-    <div className="min-h-screen text-white">
+    <div>
       <div className="max-w-7xl mx-auto p-4 md:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden shadow-2xl animate-fadeIn border border-gray-800">
+          <div className="lg:col-span-2 space-y-5">
+            <div
+              className="relative w-full aspect-video bg-black rounded-xl overflow-hidden animate-fadeIn"
+              style={{ border: "1px solid var(--border-primary)" }}
+            >
               <VideoPlayer
                 src={video.videoFile}
                 poster={video.thumbnail}
                 onReady={handlePlayerReady}
               />
               {playerError && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/70 text-red-400">
+                <div className="absolute inset-0 flex items-center justify-center bg-black/70" style={{ color: "var(--danger)" }}>
                   {playerError}
                 </div>
               )}
             </div>
 
             <div className="space-y-4 animate-slideUp">
-              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              <h1
+                className="text-2xl md:text-3xl font-bold"
+                style={{ color: "var(--text-primary)" }}
+              >
                 {video.title}
               </h1>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-300">
+              <div className="flex flex-wrap items-center gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
                 <span>{video.views || 0} views</span>
-                <span>•</span>
+                <span>·</span>
                 <span>{new Date(video.createdAt).toLocaleDateString()}</span>
                 <div className="relative">
                   <button
                     onClick={toggleLike}
                     disabled={likeLoading}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all border border-transparent ${
-                      liked
-                        ? "bg-red-600 text-white shadow-lg shadow-red-600/30"
-                        : "glass-effect hover:border-cyan-500/50 hover:text-cyan-400"
-                    }`}
+                    className="flex items-center gap-2 px-4 py-1.5 rounded-full transition-colors text-sm"
+                    style={liked ? { backgroundColor: "var(--danger)", color: "#fff" } : btnStyle}
                   >
                     {likeLoading ? "…" : <SlLike />} Like
                   </button>
@@ -311,7 +317,8 @@ export default function VideoDetail() {
                 {isOwner && (
                   <button
                     onClick={handleDelete}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full glass-effect hover:bg-red-600/20 hover:text-red-500 hover:border-red-500/50 transition-all border border-transparent"
+                    className="flex items-center gap-2 px-4 py-1.5 rounded-full transition-colors text-sm"
+                    style={btnStyle}
                     title="Delete Video"
                   >
                     Delete
@@ -319,47 +326,53 @@ export default function VideoDetail() {
                 )}
                 <button
                   onClick={copyLink}
-                  className="relative px-4 py-2 rounded-full glass-effect hover:border-cyan-500/50 hover:text-cyan-400 transition-all border border-transparent"
+                  className="relative px-4 py-1.5 rounded-full transition-colors text-sm"
+                  style={btnStyle}
                 >
                   Share
                   <CopiedBadge show={copied} />
                 </button>
                 <button
                   onClick={() => setAskAIModalOpen(true)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full glass-effect hover:border-cyan-500/50 hover:text-cyan-400 transition-all border border-transparent"
+                  className="flex items-center gap-2 px-4 py-1.5 rounded-full transition-colors text-sm"
+                  style={btnStyle}
                   title="Ask AI about this video"
                 >
                   <BiMessageAltDetail /> Ask AI
                 </button>
               </div>
 
-              <div className="flex items-center justify-between glass-effect rounded-xl p-4 border border-gray-700/50 shadow-lg">
+              <div
+                className="flex items-center justify-between rounded-xl p-4"
+                style={{
+                  backgroundColor: "var(--bg-secondary)",
+                  border: "1px solid var(--border-primary)",
+                }}
+              >
                 <Link
                   to={`/c/${video.owner.userName || video.owner.username}`}
-                  className="flex items-center gap-4 group"
+                  className="flex items-center gap-3 group"
                 >
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-700 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                    <img
-                      src={
-                        video.owner.avatar ||
-                        placeholderDataUrl(
-                          50,
-                          50,
-                          (video.owner.userName ||
-                            video.owner.username ||
-                            "U")[0],
-                        )
-                      }
-                      alt=""
-                      className="w-12 h-12 rounded-full object-cover relative z-10 border-2 border-gray-800"
-                    />
-                  </div>
+                  <img
+                    src={
+                      video.owner.avatar ||
+                      placeholderDataUrl(
+                        50,
+                        50,
+                        (video.owner.userName ||
+                          video.owner.username ||
+                          "U")[0],
+                      )
+                    }
+                    alt=""
+                    className="w-10 h-10 rounded-full object-cover"
+                    style={{ border: "2px solid var(--border-primary)" }}
+                  />
                   <div>
-                    <p className="font-bold text-lg group-hover:text-cyan-400 transition-colors">
+                    <p className="font-semibold transition-colors" style={{ color: "var(--text-primary)" }}>
                       {video.owner.userName || video.owner.username}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
                       {subscriberCount} subscribers
                     </p>
                   </div>
@@ -367,21 +380,28 @@ export default function VideoDetail() {
                 <button
                   onClick={toggleSubscribe}
                   disabled={subLoading}
-                  className={`px-6 py-2 rounded-full font-semibold transition-all shadow-lg ${
+                  className="px-5 py-1.5 rounded-full font-medium text-sm transition-colors"
+                  style={
                     isSubscribed
-                      ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                      : "bg-white text-black hover:bg-red-700 hover:shadow-red-600/30"
-                  }`}
+                      ? { backgroundColor: "var(--bg-tertiary)", color: "var(--text-secondary)" }
+                      : { backgroundColor: "var(--accent)", color: "#fff" }
+                  }
                 >
                   {subLoading ? "…" : isSubscribed ? "Subscribed" : "Subscribe"}
                 </button>
               </div>
 
-              <details className="glass-effect rounded-xl p-4 border border-gray-700/50">
-                <summary className="cursor-pointer font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
+              <details
+                className="rounded-xl p-4"
+                style={{
+                  backgroundColor: "var(--bg-secondary)",
+                  border: "1px solid var(--border-primary)",
+                }}
+              >
+                <summary className="cursor-pointer font-semibold transition-colors" style={{ color: "var(--accent)" }}>
                   Description
                 </summary>
-                <p className="text-gray-300 mt-2 whitespace-pre-wrap leading-relaxed">
+                <p className="mt-2 whitespace-pre-wrap leading-relaxed text-sm" style={{ color: "var(--text-secondary)" }}>
                   {video.description || "No description provided."}
                 </p>
               </details>
@@ -389,7 +409,7 @@ export default function VideoDetail() {
           </div>
 
           <aside className="space-y-3 animate-slideUp" ref={observerRef}>
-            <h2 className="text-lg font-semibold mb-4">Up next</h2>
+            <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Up next</h2>
             {recLoading ? (
               Array.from({ length: 6 }).map((_, i) => <RecSkeleton key={i} />)
             ) : recommendedVideos.length ? (
@@ -397,7 +417,10 @@ export default function VideoDetail() {
                 <RecommendedCard key={v._id} video={v} delay={idx * 80} />
               ))
             ) : (
-              <p className="text-gray-400 text-sm glass-effect p-4 rounded-lg text-center">
+              <p
+                className="text-sm p-4 rounded-lg text-center"
+                style={{ color: "var(--text-tertiary)", backgroundColor: "var(--bg-secondary)" }}
+              >
                 No recommendations
               </p>
             )}
