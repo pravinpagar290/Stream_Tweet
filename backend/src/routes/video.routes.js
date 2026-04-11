@@ -8,6 +8,12 @@ import {
   likeVideo,
 } from "../controllers/video.controllers.js";
 import {
+  addComment,
+  getVideoComments,
+  updateComment,
+  deleteComment,
+} from "../controllers/comment.controllers.js";
+import {
   askAboutVideo,
   generateTranscription,
   getUserQuota,
@@ -20,6 +26,12 @@ const router = Router();
 
 router.get("/", getAllVideos);
 router.get("/:videoId", getVideoByID);
+
+// Comment routes
+router.get("/:videoId/comments", getVideoComments);
+router.post("/:videoId/comments", verifyToken, addComment);
+router.patch("/comments/:commentId", verifyToken, updateComment);
+router.delete("/comments/:commentId", verifyToken, deleteComment);
 
 router.post(
   "/upload",

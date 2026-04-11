@@ -8,6 +8,8 @@ import RecommendedCard from "../components/RecommendedCard";
 import AskAIModal from "../components/AskAIModal";
 import { SlLike } from "react-icons/sl";
 import { BiMessageAltDetail } from "react-icons/bi";
+import { FiSend } from "react-icons/fi";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const HeartPop = ({ show }) => (
   <span
@@ -71,6 +73,15 @@ export default function VideoDetail() {
   const [copied, setCopied] = useState(false);
   const [askAIModalOpen, setAskAIModalOpen] = useState(false);
 
+  // Comments state
+  const [comments, setComments] = useState([]);
+  const [commentLoading, setCommentLoading] = useState(false);
+  const [commentText, setCommentText] = useState("");
+  const [submittingComment, setSubmittingComment] = useState(false);
+  const [editingComment, setEditingComment] = useState(null);
+  const [editText, setEditText] = useState("");
+  const [totalComments, setTotalComments] = useState(0);
+
   const isOwner = user?._id === video?.owner?._id;
 
   const handleDelete = async () => {
@@ -103,6 +114,12 @@ export default function VideoDetail() {
       }
     })();
     return () => (cancelled = true);
+  }, [videoId]);
+
+  useEffect(() => {
+    if (videoId) {
+      fetchComments();
+    }
   }, [videoId]);
 
   useEffect(() => {
@@ -201,6 +218,67 @@ export default function VideoDetail() {
     await navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
+  };
+
+  // Comment functions
+  const fetchComments = async () => {
+    setCommentLoading(true);
+    try {
+      const { data } = await api.get(`/video/${videoId}/comments`);
+      setComments(data.data.comments || []);
+      setTotalComments(data.data.totalComments || 0);
+    } catch (error) {
+      console.error("Failed to fetch comments:", error);
+    } finally {
+      setCommentLoading(false);
+    }
+  };
+
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+    if (!commentText.trim()) return;
+    if (!isLoggedIn) {
+      navigate("/login");
+      return;
+    }
+    setSubmittingComment(true);
+    try {
+      const { data } = await api.post(`/video/${videoId}/comments`, {
+        content: commentText,
+      });
+      setComments([data.data, ...comments]);
+      setTotalComments(totalComments + 1);
+      setCommentText("");
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to add comment");
+    } finally {
+      setSubmittingComment(false);
+    }
+  };
+
+  const handleEditComment = async (commentId) => {
+    if (!editText.trim()) return;
+    try {
+      const { data } = await api.patch(`/video/comments/${commentId}`, {
+        content: editText,
+      });
+      setComments(comments.map((c) => (c._id === commentId ? data.data : c)));
+      setEditingComment(null);
+      setEditText("");
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to edit comment");
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    if (!window.confirm("Are you sure you want to delete this comment?")) return;
+    try {
+      await api.delete(`/video/comments/${commentId}`);
+      setComments(comments.filter((c) => c._id !== commentId));
+      setTotalComments(totalComments - 1);
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to delete comment");
+    }
   };
 
   const handlePlayerReady = (player) => {
@@ -405,6 +483,151 @@ export default function VideoDetail() {
                   {video.description || "No description provided."}
                 </p>
               </details>
+
+              {/* Comments Section */}
+              <div
+                className="rounded-xl p-4 mt-4"
+                style={{
+                  backgroundColor: "var(--bg-secondary)",
+                  border: "1px solid var(--border-primary)",
+                }}
+              >
+                <h3 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>
+                  Comments ({totalComments})
+                </h3>
+
+                {/* Add Comment Form */}
+                <form onSubmit={handleAddComment} className="flex gap-3 mb-6">
+                  <img
+                    src={user?.avatar || placeholderDataUrl(40, 40, (user?.username || "U")[0])}
+                    alt="User"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div className="flex-1 flex gap-2">
+                    <input
+                      type="text"
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      placeholder={isLoggedIn ? "Add a comment..." : "Login to comment"}
+                      className="flex-1 px-4 py-2 rounded-lg border text-sm"
+                      style={{
+                        backgroundColor: "var(--bg-primary)",
+                        borderColor: "var(--border-primary)",
+                        color: "var(--text-primary)",
+                      }}
+                      disabled={!isLoggedIn || submittingComment}
+                    />
+                    <button
+                      type="submit"
+                      disabled={!commentText.trim() || !isLoggedIn || submittingComment}
+                      className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      style={{
+                        backgroundColor: commentText.trim() && isLoggedIn ? "var(--accent)" : "var(--bg-tertiary)",
+                        color: commentText.trim() && isLoggedIn ? "#fff" : "var(--text-tertiary)",
+                      }}
+                    >
+                      <FiSend />
+                    </button>
+                  </div>
+                </form>
+
+                {/* Comments List */}
+                {commentLoading ? (
+                  <div className="space-y-4">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="flex gap-3 animate-pulse">
+                        <div className="w-10 h-10 rounded-full" style={{ backgroundColor: "var(--bg-tertiary)" }} />
+                        <div className="flex-1 space-y-2">
+                          <div className="h-4 rounded w-1/4" style={{ backgroundColor: "var(--bg-tertiary)" }} />
+                          <div className="h-4 rounded" style={{ backgroundColor: "var(--bg-tertiary)" }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : comments.length === 0 ? (
+                  <p className="text-center py-4" style={{ color: "var(--text-tertiary)" }}>
+                    No comments yet. Be the first to comment!
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {comments.map((comment) => (
+                      <div key={comment._id} className="flex gap-3">
+                        <img
+                          src={comment.owner?.avatar || placeholderDataUrl(40, 40, (comment.owner?.username || "U")[0])}
+                          alt={comment.owner?.username}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-sm" style={{ color: "var(--text-primary)" }}>
+                              {comment.owner?.username || comment.owner?.userName || "User"}
+                            </span>
+                            <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                              {new Date(comment.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                          {editingComment === comment._id ? (
+                            <div className="flex gap-2 mt-1">
+                              <input
+                                type="text"
+                                value={editText}
+                                onChange={(e) => setEditText(e.target.value)}
+                                className="flex-1 px-3 py-1 rounded border text-sm"
+                                style={{
+                                  backgroundColor: "var(--bg-primary)",
+                                  borderColor: "var(--border-primary)",
+                                  color: "var(--text-primary)",
+                                }}
+                              />
+                              <button
+                                onClick={() => handleEditComment(comment._id)}
+                                className="px-3 py-1 rounded text-sm"
+                                style={{ backgroundColor: "var(--accent)", color: "#fff" }}
+                              >
+                                Save
+                              </button>
+                              <button
+                                onClick={() => setEditingComment(null)}
+                                className="px-3 py-1 rounded text-sm"
+                                style={{ backgroundColor: "var(--bg-tertiary)", color: "var(--text-secondary)" }}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          ) : (
+                            <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
+                              {comment.content}
+                            </p>
+                          )}
+                          {(user?._id === comment.owner?._id || isOwner) && (
+                            <div className="flex gap-2 mt-2">
+                              {user?._id === comment.owner?._id && (
+                                <button
+                                  onClick={() => {
+                                    setEditingComment(comment._id);
+                                    setEditText(comment.content);
+                                  }}
+                                  className="text-xs flex items-center gap-1"
+                                  style={{ color: "var(--text-tertiary)" }}
+                                >
+                                  <FaEdit /> Edit
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleDeleteComment(comment._id)}
+                                className="text-xs flex items-center gap-1"
+                                style={{ color: "var(--danger)" }}
+                              >
+                                <FaTrash /> Delete
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
