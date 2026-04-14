@@ -265,3 +265,218 @@ textarea:focus {
   border-color: var(--accent) !important;
   box-shadow: 0 0 0 2px var(--accent-subtle);
 }
+
+/* ============================================
+   VIDEO PLAYER CUSTOM STYLES
+   ============================================ */
+
+/* Override Video.js theme */
+.video-js {
+  font-family: var(--font-sans);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.video-js .vjs-control-bar {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 100%) !important;
+  height: 48px !important;
+  backdrop-filter: blur(10px);
+}
+
+.video-js .vjs-progress-control {
+  padding: 8px 0 !important;
+}
+
+.video-js .vjs-progress-control:hover .vjs-progress-holder {
+  height: 8px !important;
+}
+
+.video-js .vjs-progress-holder {
+  height: 4px !important;
+  border-radius: 4px !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.video-js .vjs-play-progress {
+  background: var(--accent) !important;
+  border-radius: 4px !important;
+}
+
+.video-js .vjs-play-progress::before {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: var(--accent) !important;
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.video-js .vjs-load-progress {
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-radius: 4px !important;
+}
+
+.video-js .vjs-slider {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.video-js .vjs-time-control {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 0 8px !important;
+}
+
+.video-js .vjs-remaining-time {
+  display: none !important;
+}
+
+.video-js .vjs-duration {
+  display: block !important;
+}
+
+.video-js .vjs-play-toggle {
+  font-size: 18px !important;
+}
+
+.video-js .vjs-play-control,
+.video-js .vjs-volume-panel,
+.video-js .vjs-current-time,
+.video-js .vjs-time-divider,
+.video-js .vjs-duration,
+.video-js .vjs-fullscreen-control,
+.video-js .vjs-playback-rate {
+  color: #fff !important;
+}
+
+.video-js .vjs-play-control:hover,
+.video-js .vjs-volume-panel:hover,
+.video-js .vjs-fullscreen-control:hover,
+.video-js .vjs-playback-rate:hover {
+  color: var(--accent) !important;
+}
+
+.video-js .vjs-volume-panel {
+  width: 80px !important;
+}
+
+.video-js .vjs-volume-bar {
+  width: 60px !important;
+  margin: 0 8px !important;
+}
+
+.video-js .vjs-volume-level {
+  background: #fff !important;
+  border-radius: 2px !important;
+}
+
+.video-js .vjs-volume-panel.vjs-volume-panel-horizontal .vjs-volume-control {
+  width: 60px !important;
+}
+
+.video-js .vjs-big-play-button {
+  width: 70px !important;
+  height: 70px !important;
+  line-height: 70px !important;
+  border-radius: 50% !important;
+  background: var(--accent) !important;
+  border: 3px solid #fff !important;
+  box-shadow: 0 0 30px rgba(37, 99, 235, 0.5) !important;
+  transition: all 0.3s ease !important;
+}
+
+.video-js:hover .vjs-big-play-button {
+  background: var(--accent-hover) !important;
+  transform: scale(1.1);
+  box-shadow: 0 0 40px rgba(37, 99, 235, 0.7) !important;
+}
+
+.video-js .vjs-loading-spinner {
+  border-width: 3px !important;
+  border-color: var(--accent) !important;
+  border-top-color: transparent !important;
+}
+
+.video-js .vjs-loading-spinner::before,
+.video-js .vjs-loading-spinner::after {
+  border-width: 3px !important;
+  border-color: var(--accent) !important;
+  border-top-color: transparent !important;
+}
+
+/* Playback rate button */
+.video-js .vjs-playback-rate {
+  font-size: 14px !important;
+}
+
+.video-js .vjs-playback-rate .vjs-playback-rate-value {
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+.video-js .vjs-menu {
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.video-js .vjs-menu-content {
+  background: rgba(0, 0, 0, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.video-js .vjs-menu-item {
+  color: #fff !important;
+}
+
+.video-js .vjs-menu-item:hover,
+.video-js .vjs-menu-item.vjs-selected {
+  background: var(--accent) !important;
+}
+
+.video-js .vjs-playback-rate-menu-button .vjs-menu {
+  left: -10px !important;
+}
+
+/* Quality selector from plugin */
+.video-js .vjs-quality-selector {
+  margin-right: 10px !important;
+}
+
+.video-js .vjs-quality-selector .vjs-menu {
+  left: -30px !important;
+}
+
+.video-js .vjs-quality-selector .vjs-menu-item span {
+  font-size: 12px !important;
+}
+
+/* Fullscreen button positioning */
+.video-js .vjs-fullscreen-control {
+  padding: 0 10px !important;
+}
+
+/* Hide default quality selector button since we have custom one */
+.video-js.vjs-hide-quality-selector .vjs-quality-selector {
+  display: none !important;
+}
+
+/* Poster image */
+.video-js .vjs-poster {
+  background-size: cover !important;
+  background-position: center !important;
+  border-radius: 12px !important;
+}
+
+/* Error display */
+.video-js .vjs-error-display {
+  background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.video-js .vjs-error-display div {
+  color: var(--danger) !important;
+  font-size: 16px !important;
+}
